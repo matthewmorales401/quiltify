@@ -1,4 +1,3 @@
-# main.py
 import webapp2
 import random
 import os
