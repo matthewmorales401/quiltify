@@ -5,7 +5,12 @@ body {
 }
 
 .heading {
+  display: flex;
+  flex-direction: row;
+}
 
+.userbox {
+  text-align: right;
 }
 
 .panelInProject {
