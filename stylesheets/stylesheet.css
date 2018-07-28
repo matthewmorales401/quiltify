@@ -1,16 +1,37 @@
 /*style sheet for quiltify*/
 
-body {
+font-family: 'Quicksand', sans-serif;
+font-family: 'Open Sans', sans-serif;
 
+
+body {
+  font-family: 'Open Sans', sans-serif;
 }
 
 .heading {
-  display: flex;
-  flex-direction: row;
+  background-color: blue;
+  height: 120px;
+}
+
+.webtitle {
+  font-family: 'Quicksand', sans-serif;
+  background-color: green;
+  float: left;
+  padding: 10px;
+  height: 100px;
+  font-size: 30px;
 }
 
 .userbox {
+  height: 100px;
+  width: 300px;
+  padding: 10px;
   text-align: right;
+  float: right;
+  background-color: orange;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 10px;
+  font-size: 15px;
 }
 
 .panelInProject {

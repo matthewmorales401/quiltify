@@ -1,27 +1,71 @@
 import webapp2
-import random
-import os
 import jinja2
+import os
 
-from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import users
 
-jinja_env = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+env = jinja2.Environment(
+    loader = jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
-    autoescape=True)
+    autoescape=True,
+)
+
+class Project(ndb.Model):
+    collaborators = []
+    completed = ndb.BooleanProperty()
+    panels = []
+    numPanels = ndb.IntegerProperty()
+    panelsRemaining = ndb.IntegerProperty()
+
+class Panel(ndb.Model):
+    filled = False
+    height = 80
+    width = 80
+    creator = "insert person object"
+    content = "i'm a panel"
+
+class Profile(ndb.Model):
+    projects = []
+    name = ndb.StringProperty()
+    email = ndb.StringProperty()
+
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello, World!') #response for the MainPage handler
+        project_query = Patch.query()
+        project_query = project_query.order(Patch.created_time)
+        projects = project_query.fetch()
+        templateVars = { #this is a dictionary
+            "projects" : projects
+        }
+        template = env.get_template("templates/home.html")
 
-class EmotionHandler(webapp2.RequestHandler):
-    def get(self): #responds to a GET request
-        emotions = ["witty", "edgy", "hangry", "excited", "on-point"]
-        self.response.write("I feel so " + random.choice(emotions) + "!")
+        self.response.write(template.render(templateVars))
 
+    def post(self):
+
+
+class viewProject(webapp2.RequestHandler):
+    def get(self):
+        template = env.get_template("templates/viewProject.html")
+        templateVars = { #this is a dictionary
+
+        }
+        self.response.write(template.render(templateVars))
+
+
+class Profile(webapp2.RequestHandler):
+    def get(self):
+        #profile=self.request.get('profile')
+        template = env.get_template("templates/profile.html")
+        templateVars = { #this is a dictionary
+
+        }
+        self.response.write(template.render(templateVars))
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage),
-    ('/feelings', EmotionHandler)
+    ("/", MainPage),
+    ("/viewProject", viewProject),
+    ("/profile", Profile)
 ], debug=True)
