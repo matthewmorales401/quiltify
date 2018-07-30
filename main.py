@@ -23,7 +23,7 @@ class Panel(ndb.Model):
     filled = False
     height = 80
     width = 80
-    creator = "insert person object"
+    creator = ndb.StringProperty()
     content = "i'm a panel"
 
 class Profile(ndb.Model):
