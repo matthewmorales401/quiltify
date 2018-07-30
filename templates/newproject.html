@@ -17,7 +17,7 @@
       {% else %}
         <div class="createaccount">
             <div id="input_box" class="box_card">
-              <form method="post" action="/profile">
+              <form method="post" action="/newproject">
                 Your name: <input name="firstname" value="First" onclick="this.select()">
                 <input name="lastname" value="Last" onclick="this.select()"><br>
                 Bio: <input name="biography">
@@ -34,22 +34,22 @@
   </div>
 </div>
 
-<div class="pagebody">
-  <div class="navbar redborder">
-    <img class="profilepic" src="../photos/profile.png">
-    <h2 style="font-weight: 600;">{{current_person.firstname}} {{current_person.lastname}}</h2>
-    <p>{{current_person.biography}}</p>
-  </div>
-  <div class="content redborder">
+<div class="content">
+  <h2 style="padding-left, padding-top: 20px">Create a New Project</h2>
+  <form action="/viewproject" method="post">
+    Rows:
+    <select name="rows">
+      <option value="1">1</option>
+      <option value="2">2</option>
+    </select>
+    <br>
+    Columns:
+    <select name="columns">
+      <option value="1">1</option>
+      <option value="2">2</option>
+    </select>
+    <br>
+    <button>Create Your Project!</button>
+  </form>
 
-    <div class="pageheader">
-      <h2 style="float: left">My Projects</h2>
-      <div style=" float: right; padding-right: 10px">
-        <a style="line-height: 30px;" href="newproject">New Project</a>
-      </div>
-    </div>
-    <div class="divider">
-    </div>
-
-  </div>
 </div>

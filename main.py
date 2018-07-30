@@ -13,22 +13,22 @@ env = jinja2.Environment(
 )
 
 class Project(ndb.Model):
-    collaborators = []
+    owner = ndb.KeyProperty()
     completed = ndb.BooleanProperty()
-    panels = []
-    numPanels = ndb.IntegerProperty()
-    panelsRemaining = ndb.IntegerProperty()
+    rows = ndb.IntegerProperty()
+    columns = ndb.IntegerProperty()
     created_time = ndb.DateTimeProperty()
 
 class Panel(ndb.Model):
     filled = False
-    height = 80
-    width = 80
-    creator = ndb.StringProperty()
+    height = ndb.IntegerProperty()
+    width = ndb.IntegerProperty()
+    panel_id = ndb.IntegerProperty()
+    creator = ndb.KeyProperty()
     content = "i'm a panel"
+    project_key = ndb.KeyProperty() #project_key = project_name.key
 
 class User(ndb.Model):
-    projects = []
     firstname = ndb.StringProperty()
     lastname = ndb.StringProperty()
     email = ndb.StringProperty()
@@ -152,8 +152,36 @@ class Profile(webapp2.RequestHandler):
 
         self.redirect("/profile")
 
+class NewProject(webapp2.RequestHandler):
+    def get(self):
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        current_user = users.get_current_user()
+        logout_url = users.create_logout_url("/profile")
+        login_url = users.create_login_url("/profile")
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+        else:
+            current_person = None
+
+        templateVars = { #this is a dictionary
+            "current_user" : current_user,
+            "user_list" : user_list,
+            "login_url" : login_url,
+            "logout_url" : logout_url,
+            "current_person" : current_person,
+        }
+
+        template = env.get_template("templates/newproject.html")
+
+        self.response.write(template.render(templateVars))
+
 app = webapp2.WSGIApplication([
     ("/", MainPage),
     ("/viewproject", viewProject),
     ("/profile", Profile),
+    ("/newproject", NewProject),
 ], debug=True)

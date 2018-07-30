@@ -51,6 +51,7 @@ a.logo {
 .pagebody {
   display: flex;
   font-family: 'Open Sans', sans-serif;
+  width: 100%
 }
 
 .redborder {
@@ -78,7 +79,8 @@ a.logo {
   margin: 5px;
   margin-top: 15px;
   padding: 10px;
-  width: 100%
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .profilepic {
@@ -161,6 +163,16 @@ a.logo {
   display: inline-block
 }
 
+.pageheader {
+  height: 50px;
+}
+
+.divider {
+  background-color: #542344;
+  height: 2px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
 
 
 
