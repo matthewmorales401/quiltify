@@ -17,6 +17,7 @@ class Project(ndb.Model):
     panels = []
     numPanels = ndb.IntegerProperty()
     panelsRemaining = ndb.IntegerProperty()
+    created_time = ndb.DateTimeProperty()
 
 class Panel(ndb.Model):
     filled = False
@@ -33,8 +34,8 @@ class Profile(ndb.Model):
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        project_query = Patch.query()
-        project_query = project_query.order(Patch.created_time)
+        project_query = Project.query()
+        project_query = project_query.order(Project.created_time)
         projects = project_query.fetch()
         templateVars = { #this is a dictionary
             "projects" : projects
@@ -42,8 +43,6 @@ class MainPage(webapp2.RequestHandler):
         template = env.get_template("templates/home.html")
 
         self.response.write(template.render(templateVars))
-
-    def post(self):
 
 
 class viewProject(webapp2.RequestHandler):

@@ -9,13 +9,13 @@ body {
 }
 
 .heading {
-  background-color: blue;
+  /* background-color: blue; */
   height: 120px;
 }
 
 .webtitle {
   font-family: 'Quicksand', sans-serif;
-  background-color: green;
+  /* background-color: green; */
   float: left;
   padding: 10px;
   height: 100px;
@@ -28,7 +28,7 @@ body {
   padding: 10px;
   text-align: right;
   float: right;
-  background-color: orange;
+  /* background-color: orange; */
   font-family: 'Open Sans', sans-serif;
   line-height: 10px;
   font-size: 15px;
