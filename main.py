@@ -77,14 +77,24 @@ class MainPage(webapp2.RequestHandler):
 class viewProject(webapp2.RequestHandler):
     def get(self):
 
+        user_query = User.query()
+        user_list = user_query.fetch()
+
         current_user = users.get_current_user()
         logout_url = users.create_logout_url("/viewproject")
         login_url = users.create_login_url("/viewproject")
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+        else:
+            current_person = None
 
         templateVars = { #this is a dictionary
             "current_user" : current_user,
             "login_url" : login_url,
             "logout_url" : logout_url,
+            "current_person" : current_person,
         }
 
         template = env.get_template("templates/viewProject.html")
