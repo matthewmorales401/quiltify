@@ -131,6 +131,7 @@ a.logo {
 }
 
 .statusBox {
+  font-family: 'Quicksand';
   display: flex;
   position: relative;
   margin: 5px;
@@ -145,6 +146,7 @@ a.logo {
 }
 
 .panelBox {
+  font-family: 'Quicksand';
   display: flex;
   margin: 5px;
   margin-top: 15px;
@@ -158,9 +160,10 @@ a.logo {
 }
 
 .titlePanel {
+  font-family: 'Quicksand';
   text-align: center;
-  width: 100%;
-  display: inline-block
+  width: 50px;
+  display: inline-block;
 }
 
 .pageheader {
