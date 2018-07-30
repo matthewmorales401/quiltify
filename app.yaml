@@ -4,9 +4,13 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /.*
-  script: main.app
-  secure: always
+  - url: /stylesheets
+    static_dir: stylesheets
+  - url: /photos
+    static_dir: photos
+  - url: /.*
+    script: main.app
+    secure: always
 
 libraries:
 - name: webapp2
