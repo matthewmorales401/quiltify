@@ -1,6 +1,7 @@
 import webapp2
 import jinja2
 import os
+import time
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -71,6 +72,7 @@ class MainPage(webapp2.RequestHandler):
         email=users.get_current_user().email()
         newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
         newUser.put()
+        time.sleep(2)
         self.redirect("/")
 
 
@@ -108,6 +110,7 @@ class viewProject(webapp2.RequestHandler):
         email=users.get_current_user().email()
         newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
         newUser.put()
+        time.sleep(2)
         self.redirect("/viewproject")
 
 class Profile(webapp2.RequestHandler):
@@ -145,6 +148,8 @@ class Profile(webapp2.RequestHandler):
         email=users.get_current_user().email()
         newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
         newUser.put()
+        time.sleep(2)
+
         self.redirect("/profile")
 
 app = webapp2.WSGIApplication([
