@@ -26,66 +26,119 @@ class Panel(ndb.Model):
     creator = ndb.StringProperty()
     content = "i'm a panel"
 
-class Profile(ndb.Model):
+class User(ndb.Model):
     projects = []
-    name = ndb.StringProperty()
+    firstname = ndb.StringProperty()
+    lastname = ndb.StringProperty()
     email = ndb.StringProperty()
-
+    biography = ndb.StringProperty()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
         project_query = Project.query()
         project_query = project_query.order(Project.created_time)
         projects = project_query.fetch()
+
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        current_user = users.get_current_user()
         logout_url = users.create_logout_url("/")
         login_url = users.create_login_url("/")
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+        else:
+            current_person = None
+
         templateVars = { #this is a dictionary
+            "current_user" : current_user,
             "projects" : projects,
+            "user_list" : user_list,
             "login_url" : login_url,
             "logout_url" : logout_url,
+            "current_person" : current_person,
         }
         template = env.get_template("templates/home.html")
 
         self.response.write(template.render(templateVars))
 
+    def post(self):
+        firstname = self.request.get('firstname')
+        lastname = self.request.get('lastname')
+        biography = self.request.get('biography')
+        email=users.get_current_user().email()
+        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
+        newUser.put()
+        self.redirect("/")
+
 
 class viewProject(webapp2.RequestHandler):
     def get(self):
-        template = env.get_template("templates/viewProject.html")
-        templateVars = { #this is a dictionary
 
-        }
-        self.response.write(template.render(templateVars))
-
-    def post(self):
-        template = env.get_template("templates/viewProject.html")
-        imgsrc = self.request.get('imgsrc')
-        panelid = self.request.get('panelid')
-        creator = users.get_current_user()
-
-        templateVars = { #this is a dictionary
-
-        }
-        self.response.write(template.render(templateVars))
-
-class Profile(webapp2.RequestHandler):
-    def get(self):
         current_user = users.get_current_user()
-        logout_url = users.create_logout_url("/")
-        login_url = users.create_login_url("/")
-        
+        logout_url = users.create_logout_url("/viewproject")
+        login_url = users.create_login_url("/viewproject")
+
         templateVars = { #this is a dictionary
             "current_user" : current_user,
             "login_url" : login_url,
             "logout_url" : logout_url,
         }
 
+        template = env.get_template("templates/viewProject.html")
+
+        self.response.write(template.render(templateVars))
+
+    def post(self):
+        firstname = self.request.get('firstname')
+        lastname = self.request.get('lastname')
+        biography = self.request.get('biography')
+        email=users.get_current_user().email()
+        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
+        newUser.put()
+        self.redirect("/viewproject")
+
+class Profile(webapp2.RequestHandler):
+    def get(self):
+
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        current_user = users.get_current_user()
+        logout_url = users.create_logout_url("/profile")
+        login_url = users.create_login_url("/profile")
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+        else:
+            current_person = None
+
+        templateVars = { #this is a dictionary
+            "current_user" : current_user,
+            "user_list" : user_list,
+            "login_url" : login_url,
+            "logout_url" : logout_url,
+            "current_person" : current_person,
+        }
+
         template = env.get_template("templates/profile.html")
 
         self.response.write(template.render(templateVars))
 
+    def post(self):
+        firstname = self.request.get('firstname')
+        lastname = self.request.get('lastname')
+        biography = self.request.get('biography')
+        email=users.get_current_user().email()
+        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
+        newUser.put()
+        self.redirect("/profile")
+
 app = webapp2.WSGIApplication([
     ("/", MainPage),
-    ("/viewProject", viewProject),
-    ("/profile", Profile)
+    ("/viewproject", viewProject),
+    ("/profile", Profile),
 ], debug=True)

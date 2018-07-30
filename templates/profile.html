@@ -10,9 +10,22 @@
   </div>
   <div class="userbox">
     {% if current_user %}
-      <p style="font-family: 'Quicksand', sans-serif; font-size: 18px;">
-        FirstName LastName</p>
-      <p>email</p>
+      {% if current_person %}
+        <p style="font-family: 'Quicksand', sans-serif; font-size: 18px;">
+          {{current_person.firstname}} {{current_person.lastname}}</p>
+        <p>{{current_user.email()}}</p>
+      {% else %}
+        <div class="createaccount">
+            <div id="input_box" class="box_card">
+              <form method="post" action="/profile">
+                Your name: <input name="firstname" value="First" onclick="this.select()">
+                <input name="lastname" value="Last" onclick="this.select()"><br>
+                Bio: <input name="biography">
+                <button>Create Profile</button>
+              </form>
+            </div>
+        </div>
+      {% endif %}
       <p>View Profile | <a href="{{logout_url}}">Log Out</a><p>
     {% else %}
       <br><br>
@@ -22,12 +35,12 @@
 </div>
 
 <div class="pagebody">
-  <div class="navbar">
+  <div class="navbar redborder">
     <img class="profilepic" src="../photos/logo.png">
-    <p>{FirstName LastName}</p>
-    <p>{biography}</p>
+    <p>{{current_person.firstname}} {{current_person.lastname}}</p>
+    <p>{{current_person.biography}}</p>
   </div>
-  <div class="content">
+  <div class="content redborder">
     <h2>My Projects</h2>
   </div>
 </div>
