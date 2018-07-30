@@ -37,8 +37,12 @@ class MainPage(webapp2.RequestHandler):
         project_query = Project.query()
         project_query = project_query.order(Project.created_time)
         projects = project_query.fetch()
+        logout_url = users.create_logout_url("/")
+        login_url = users.create_login_url("/")
         templateVars = { #this is a dictionary
-            "projects" : projects
+            "projects" : projects,
+            "login_url" : login_url,
+            "logout_url" : logout_url,
         }
         template = env.get_template("templates/home.html")
 
@@ -53,14 +57,31 @@ class viewProject(webapp2.RequestHandler):
         }
         self.response.write(template.render(templateVars))
 
+    def post(self):
+        template = env.get_template("templates/viewProject.html")
+        imgsrc = self.request.get('imgsrc')
+        panelid = self.request.get('panelid')
+        creator = users.get_current_user()
 
-class Profile(webapp2.RequestHandler):
-    def get(self):
-        #profile=self.request.get('profile')
-        template = env.get_template("templates/profile.html")
         templateVars = { #this is a dictionary
 
         }
+        self.response.write(template.render(templateVars))
+
+class Profile(webapp2.RequestHandler):
+    def get(self):
+        current_user = users.get_current_user()
+        logout_url = users.create_logout_url("/")
+        login_url = users.create_login_url("/")
+        
+        templateVars = { #this is a dictionary
+            "current_user" : current_user,
+            "login_url" : login_url,
+            "logout_url" : logout_url,
+        }
+
+        template = env.get_template("templates/profile.html")
+
         self.response.write(template.render(templateVars))
 
 app = webapp2.WSGIApplication([
