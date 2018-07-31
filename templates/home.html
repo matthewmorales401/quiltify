@@ -16,10 +16,27 @@ table {
 }
 
 
+#create {
+    background-color: #e7e7e7; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+#create:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
 #artworks {
-  height: 300px; /*make adjustable as extension*/
-  width: 300px;
+  height: 400px; /*make adjustable as extension*/
+  width: 400px;
   border: 1px solid black;
+  min-width: 400px;
+  min-height: 400px;
 
   }
 
@@ -51,7 +68,7 @@ table {
             </div>
         </div>
       {% endif %}
-      <p><a href="profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a><p>
+      <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a><p>
     {% else %}
       <br><br>
       <a href="{{login_url}}">Log In</a>
@@ -64,10 +81,13 @@ table {
 
 <br></br>
 <h1 style="text-align: center;">BROWSE THE LATEST PROJECTS</h1>
-<table align="center" id="columns" cellspacing="100">
+
+<form action="/" method="post">
+<h2 style="text-align: center;"><button id="create" style="margin-top: 30px;">CREATE A NEW PROJECT</button></h2>
+</form>
+
+<table align="center" id="columns">
     <!--put in profiles-->
-
-
   <tr>
     <td id="artworks"><a href="/">{{projects}}
     </a></td>
