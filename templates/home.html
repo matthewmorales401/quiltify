@@ -34,6 +34,9 @@
   </div>
 </div>
 
+
+
+
 <div class="pagebody" style="flex-direction: column">
   <br></br>
   <h1 style="text-align: center;">BROWSE THE LATEST PROJECTS</h1>
@@ -42,25 +45,30 @@
   <h2 style="text-align: center;"><button id="create" style="margin-top: 30px;"><a href="newproject">CREATE A NEW PROJECT</a></button></h2>
 </form>
 
-  <table align="center" id="columns" cellspacing="100">
+<table align="center" id="columns" cellspacing="100">
       <!--put in profiles-->
 
 
-    <tr>
-      <td class="artworks redborder"><a href="/">{{projects}}
-      </a></td>
+{% for project in projects %}
 
-      <td class="artworks redborder">{{projects}}
+  <tr>
+
+
+      <td class="artworks redborder" style="">
+        <a href="/viewproject?key={{project.key.urlsafe()}}">
+            HELLOOOOO
+
+        </a>
       </td>
-    </tr>
 
-
-    <tr>
-      <td class="artworks redborder">{{projects}}
+      <td class="artworks redborder" style="">
+        <a href="/viewproject?key={{project.key.urlsafe()}}">
+            HELLOOOOO
+        </a>
       </td>
 
-      <td class="artworks redborder">{{projects}}
-      </td>
-    </tr>
+  </tr>
+
+{% endfor %}
   </table>
 </div>
