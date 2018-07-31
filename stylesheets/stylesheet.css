@@ -184,13 +184,13 @@ a.logo {
 }
 
 .panel {
-  background-color: white;
+  background-color: gainsboro;
   margin: 5px;
 }
 
-/* .panel:hover {
+.panel:hover {
   cursor: pointer;
-} */
+}
 
 .panelBox {
   font-family: 'Open Sans', sans-serif;
@@ -201,7 +201,6 @@ a.logo {
   border-radius: 2px;
   box-shadow: 0 0 5px #542344;
   padding: 10px;
-
 }
 
 .listprojects {

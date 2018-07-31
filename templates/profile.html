@@ -16,14 +16,15 @@
         <p>{{current_user.email()}}</p>
       {% else %}
         <div class="createaccount">
-            <div id="input_box" class="box_card">
-              <form method="post" action="/profile">
-                Your name: <input name="firstname" value="First" onclick="this.select()">
-                <input name="lastname" value="Last" onclick="this.select()"><br>
-                Bio: <input name="biography">
-                <button>Create Profile</button>
-              </form>
-            </div>
+
+          <div id="input_box" class="box_card">
+            <form method="post" action="/profile">
+              Your name: <input name="firstname" value="First" onclick="this.select()">
+              <input name="lastname" value="Last" onclick="this.select()"><br>
+              Bio: <input name="biography">
+              <button>Create Profile</button>
+            </form>
+          </div>
         </div>
       {% endif %}
       <p><a href="profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a><p>
@@ -39,6 +40,9 @@
     <div class="redborder" style="padding: 10px;">
       <img class="profilepic" src="../photos/profile.png">
       <h2 style="font-weight: 600;">{{current_person.firstname}} {{current_person.lastname}}</h2>
+      {% if current_user %}
+        <p>{{current_user.email()}}
+      {% endif %}
       <p>{{current_person.biography}}</p>
     </div>
   </div>
@@ -47,7 +51,9 @@
     <div class="pageheader">
       <h2 style="float: left">My Projects</h2>
       <div style=" float: right; padding-right: 10px">
+        {% if current_person %}
         <a style="line-height: 30px;" href="newproject">New Project</a>
+        {% endif %}
       </div>
     </div>
     <div class="divider">
