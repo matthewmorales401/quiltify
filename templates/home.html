@@ -51,18 +51,21 @@
       {% for project in projects %}
         {% if count%2==1 %} <!--for every other project, create a new row in the table-->
         <tr>
-            <td class="artworks redborder" style="">
+            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
               <a href="/viewproject?key={{project.key.urlsafe()}}">
                 {{project.title}}
               </a>
+              <iframe src="/viewproject?key={{project.key.urlsafe()}}" class="panelBox redborder" scrolling="no"></iframe>
             </td>
             {% set count = count+1 %}
 
         {% else %}
-            <td class="artworks redborder" style="">
+            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
               <a href="/viewproject?key={{project.key.urlsafe()}}">
                   {{project.title}}
               </a>
+              <iframe src="/viewproject?key={{project.key.urlsafe()}}" class="panelBox.redborder" scrolling="no"></iframe>
+
             </td>
         </tr>
         {% set count = count+1 %}
