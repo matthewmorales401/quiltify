@@ -16,7 +16,7 @@ class Project(ndb.Model):
     owner = ndb.KeyProperty()
     rows = ndb.IntegerProperty()
     columns = ndb.IntegerProperty()
-    created_time = ndb.DateTimeProperty()
+    created_time = ndb.DateTimeProperty(auto_now_add=True)
     title = ndb.StringProperty()
 
 class Panel(ndb.Model):
@@ -129,7 +129,7 @@ class viewProject(webapp2.RequestHandler):
             current_person = None
 
         time.sleep(2)
-        self.redirect("/viewproject")
+        self.redirect("/viewproject?key=" + newProject_key.urlsafe())
 
 class Profile(webapp2.RequestHandler):
     def get(self):
@@ -147,6 +147,7 @@ class Profile(webapp2.RequestHandler):
             current_person = user_query.filter(User.email == current_email).get()
             if current_person:
                 projects = Project.query().filter(Project.owner == current_person.key)
+                projects = projects.order(Project.created_time)
         else:
             current_person = None
 

@@ -53,8 +53,15 @@
     <div class="listprojects">
       {% if projects %}
         {% for project in projects %}
-          <div class="displayproject">
+          <div class="displayproject redborder">
             {{project.title}}
+            <form method="get" action="viewproject">
+              <div style="display: none;">
+                <input name="key" value="{{project.key.urlsafe()}}">
+              </div>
+              <input class="submitbutton" type="submit" value="View Project">
+            </form>
+          </div>
         {% endfor %}
       {% endif %}
     </div>
