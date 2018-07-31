@@ -89,8 +89,8 @@ class viewProject(webapp2.RequestHandler):
         project = project_key.get()
 
         current_user = users.get_current_user()
-        logout_url = users.create_logout_url("/viewproject")
-        login_url = users.create_login_url("/viewproject")
+        logout_url = users.create_logout_url("/")
+        login_url = users.create_login_url("/")
 
         if current_user:
             current_email = current_user.email()
