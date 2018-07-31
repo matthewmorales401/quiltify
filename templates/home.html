@@ -3,31 +3,6 @@
 <link rel="stylesheet" href="../stylesheets/stylesheet.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
 
-
-
-<style>
-body {
-font-family: 'Quicksand', sans-serif;
-}
-
-table {
-    border-collapse: separate;
-    border-spacing: 100px 50px;
-}
-
-
-#artworks {
-  height: 300px; /*make adjustable as extension*/
-  width: 300px;
-  border: 1px solid black;
-
-  }
-
-
-</style>
-
-
-
 <div class="heading">
   <div class="webtitle" onclick="location.href='/'">
     <img class="logo" src="../photos/logo.png">
@@ -59,29 +34,29 @@ table {
   </div>
 </div>
 
+<div class="pagebody" style="flex-direction: column">
+  <br></br>
+  <h1 style="text-align: center;">BROWSE THE LATEST PROJECTS</h1>
+  <div class="divider"></div>
+  <table align="center" id="columns" cellspacing="100">
+      <!--put in profiles-->
 
 
+    <tr>
+      <td class="artworks redborder"><a href="/">{{projects}}
+      </a></td>
 
-<br></br>
-<h1 style="text-align: center;">BROWSE THE LATEST PROJECTS</h1>
-<table align="center" id="columns" cellspacing="100">
-    <!--put in profiles-->
-
-
-  <tr>
-    <td id="artworks"><a href="/">{{projects}}
-    </a></td>
-
-    <td id="artworks">{{projects}}
-    </td>
-  </tr>
+      <td class="artworks redborder">{{projects}}
+      </td>
+    </tr>
 
 
-  <tr>
-    <td id="artworks">{{projects}}
-    </td>
+    <tr>
+      <td class="artworks redborder">{{projects}}
+      </td>
 
-    <td id="artworks">{{projects}}
-    </td>
-  </tr>
-</table>
+      <td class="artworks redborder">{{projects}}
+      </td>
+    </tr>
+  </table>
+</div>

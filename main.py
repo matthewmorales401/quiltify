@@ -24,7 +24,7 @@ class Panel(ndb.Model):
     width = ndb.IntegerProperty()
     panel_id = ndb.IntegerProperty()
     creator = ndb.KeyProperty()
-    content = "i'm a panel"
+    content = ndb.StringProperty()
     project_key = ndb.KeyProperty() #project_key = project_name.key
 
 class User(ndb.Model):
@@ -81,6 +81,11 @@ class viewProject(webapp2.RequestHandler):
         user_query = User.query()
         user_list = user_query.fetch()
 
+        project_key = ndb.Key(urlsafe = self.request.get('key'))
+        panels = Panel.query().order(Panel.panel_id).filter(Panel.project_key == project_key).fetch()
+
+        project = project_key.get()
+
         current_user = users.get_current_user()
         logout_url = users.create_logout_url("/viewproject")
         login_url = users.create_login_url("/viewproject")
@@ -99,6 +104,8 @@ class viewProject(webapp2.RequestHandler):
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
+            "panels" : panels,
+            "project" : project,
         }
 
         template = env.get_template("templates/viewProject.html")
@@ -122,8 +129,8 @@ class viewProject(webapp2.RequestHandler):
             newProject.put()
             newProject_key = newProject.key
             for i in range(1, rows*columns + 1):
-                newPanel = Panel(project_key=newProject_key, width=80, height=80,
-                panel_id = i,)
+                newPanel = Panel(project_key=newProject_key, width=200, height=200,
+                panel_id = i, content="THIS IS A PANEL")
                 newPanel.put()
         else:
             current_person = None

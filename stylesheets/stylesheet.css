@@ -12,12 +12,14 @@ Blue: #5B92BD
 Mint: #A0D2DB
 Pale Mint: #BEE7E8
 PALER mint: #E3F2F2
+VERY light gray/purple: #e2e0e2;
 
 */
 
 
 body {
   font-family: 'Open Sans', sans-serif;
+  background-color: #e2e0e2;
 }
 
 h2 {
@@ -33,6 +35,11 @@ h3 {
   font-size: 20px;
   line-height: 0px;
   font-weight: 400;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 100px 50px;
 }
 
 a {
@@ -64,13 +71,23 @@ a.logo {
 .pagebody {
   display: flex;
   font-family: 'Open Sans', sans-serif;
-  width: 100%
+  width: 100%;
+  background-color: #e2e0e2;
 }
 
 .redborder {
   border: 2px;
   border-radius: 2px;
   box-shadow: 0 0 5px #542344;
+  background-color: white;
+
+}
+
+.artworks {
+  height: 300px; /*make adjustable as extension*/
+  width: 300px;
+  padding: 10px;
+
 }
 
 .createaccount {
@@ -81,15 +98,15 @@ a.logo {
 }
 
 .navbar {
-  flex: 0 0 200px;
-  margin: 5px;
+  flex: 0 0 300px;
+  margin: 10px;
   margin-top: 15px;
   padding: 10px;
   text-align: center;
 }
 
 .content {
-  margin: 5px;
+  margin: 10px;
   margin-top: 15px;
   padding: 10px;
   width: 100%;
@@ -139,8 +156,8 @@ a.logo {
   font-size: 15px;
 }
 
-.panelInProject {
-
+.panel {
+  background-color: green;
 }
 
 .statusBox {
@@ -159,7 +176,7 @@ a.logo {
 }
 
 .panelBox {
-  font-family: 'Quicksand';
+  font-family: 'Open Sans', sans-serif;
   display: flex;
   margin: 5px;
   margin-top: 15px;
@@ -167,8 +184,6 @@ a.logo {
   border-radius: 2px;
   box-shadow: 0 0 5px #542344;
   padding: 5px;
-  width: 1400px;
-  height: 1000px;
 
 }
 
@@ -198,6 +213,7 @@ a.logo {
 .divider {
   background-color: #542344;
   height: 2px;
+  margin-top: 10px;
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 10px;

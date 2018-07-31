@@ -24,16 +24,28 @@
   </div>
 </div>
 
-<div class="statusBox">status box</div>
-  <p style="font-family: 'Quicksand', sans-serif; font-size: 18px;">
+<div class="pagebody">
+  <div class="content">
+
+    <div class="pageheader">
+      <h2 style="float: left">{{project.title}}</h2>
+    </div>
+    <div class="divider"></div>
+    <div class="panelBox redborder">
+      {% for panel in panels %}
+        <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px">
+          {{panel.content}}
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- <div class="panelBox">{{panels}}</div>
+    <p style="font-family: 'Quicksand', sans-serif; font-size: 18px;">
+  </div> -->
+
 </div>
-
-<h1 class="titlePanel">egergregergregegergr</h1>
-
-<div class="panelBox">{{panels}}</div>
-  <p style="font-family: 'Quicksand', sans-serif; font-size: 18px;">
-</div>
-
 <!-- (% if panelBox is not %)
 
  (% else %)
