@@ -186,6 +186,61 @@ class Profile(webapp2.RequestHandler):
 
         self.redirect("/profile")
 
+class UpdatePanel(webapp2.RequestHandler):
+    def get(self):
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        panel_key = ndb.Key(urlsafe = self.request.get('key'))
+        panel = panel_key.get()
+
+        project = panel.project_key.get()
+
+        current_user = users.get_current_user()
+        logout_url = users.create_logout_url("/upadatepanel")
+        login_url = users.create_login_url("/upadatepanel")
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+        else:
+            current_person = None
+
+        upload_url = blobstore.create_upload_url()
+        # project_url_key = self.request.get('project_key')
+        # project_key = ndb.Key(urlsafe=project_url_key)
+
+        templateVars = { #this is a dictionary
+            "current_user" : current_user,
+            "login_url" : login_url,
+            "logout_url" : logout_url,
+            "current_person" : current_person,
+            "panel" : panel,
+            "project" : project,
+            "upload_url" : upload_url,
+        }
+
+        template = env.get_template("templates/updatepanel.html")
+
+        self.response.write(template.render(templateVars))
+
+
+    def post(self):
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        rows = int(self.request.get('rows'))
+        columns = int(self.request.get('columns'))
+        current_user = users.get_current_user()
+        title = self.request.get('title')
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+
+        else:
+            current_person = None
+
 class NewProject(webapp2.RequestHandler):
     def get(self):
         user_query = User.query()
@@ -218,4 +273,5 @@ app = webapp2.WSGIApplication([
     ("/viewproject", viewProject),
     ("/profile", Profile),
     ("/newproject", NewProject),
+    ("/updatepanel", UpdatePanel),
 ], debug=True)

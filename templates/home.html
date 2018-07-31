@@ -47,28 +47,26 @@
 
 <table align="center" id="columns" cellspacing="100">
       <!--put in profiles-->
+      {% set count = 1 %}
+      {% for project in projects %}
+        {% if count%2==1 %} <!--for every other project, create a new row in the table-->
+        <tr>
+            <td class="artworks redborder" style="">
+              <a href="/viewproject?key={{project.key.urlsafe()}}">
+                {{project.title}}
+              </a>
+            </td>
+            {% set count = count+1 %}
 
-
-{% for project in projects %}
-
-  <tr>
-
-
-      <td class="artworks redborder" style="">
-        <a href="/viewproject?key={{project.key.urlsafe()}}">
-            HELLOOOOO
-
-        </a>
-      </td>
-
-      <td class="artworks redborder" style="">
-        <a href="/viewproject?key={{project.key.urlsafe()}}">
-            HELLOOOOO
-        </a>
-      </td>
-
-  </tr>
-
-{% endfor %}
-  </table>
+        {% else %}
+            <td class="artworks redborder" style="">
+              <a href="/viewproject?key={{project.key.urlsafe()}}">
+                  {{project.title}}
+              </a>
+            </td>
+        </tr>
+        {% set count = count+1 %}
+        {% endif %}
+      {% endfor %}
+</table>
 </div>

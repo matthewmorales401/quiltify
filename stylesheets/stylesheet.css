@@ -69,6 +69,20 @@ a.logo {
   cursor: pointer;
 }
 
+.smallbutton {
+  background-color: gainsboro;
+  font-size: 10px;
+  margin: 5px;
+  padding: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.smallbutton:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+
 .pagebody {
   display: flex;
   font-family: 'Open Sans', sans-serif;
@@ -84,7 +98,7 @@ a.logo {
 
 }
 
-#artworks {
+.artworks {
   height: 400px; /*make adjustable as extension*/
   width: 400px;
   border: 1px solid black;
@@ -92,15 +106,15 @@ a.logo {
   min-height: 400px;
 
   }
-  #create {
-        background-color: #e7e7e7;
-        border: none;
-        color: black;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
+.create {
+    background-color: #e7e7e7;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
   }
 
 .createaccount {
@@ -174,9 +188,9 @@ a.logo {
   margin: 5px;
 }
 
-.panel:hover {
+/* .panel:hover {
   cursor: pointer;
-}
+} */
 
 .panelBox {
   font-family: 'Open Sans', sans-serif;
