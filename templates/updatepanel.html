@@ -33,11 +33,24 @@
     <div class="divider"></div>
     <div class="panelBox redborder">
       <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px">
-        {{panel.content}}
+        <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
+        alt="PANEL CONTENT">
       </div>
-      <div>
-        <form action="/updatepanel" action="post">
-          <button class="submitbutton">Upload Image</button>
+      <div style="padding: 5px; margin: 10px;">
+        <form action="uploadphoto" method="POST" enctype="multipart/form-data">
+          <div style="display: none;">
+            <input name="key" value="{{panel.key.urlsafe()}}">
+          </div>
+          Upload File: <br>
+          <input type="file" name="file"><br>
+          <input type="submit" name="submit" value="Submit">
+        </form>
+        <br>
+        <form method="get" action="viewproject">
+          <div style="display: none;">
+            <input name="key" value="{{project.key.urlsafe()}}">
+          </div>
+          <input class="submitbutton" type="submit" value="Back to Project">
         </form>
       </div>
     </div>
