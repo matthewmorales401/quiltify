@@ -59,7 +59,9 @@
               <a href="/viewproject?key={{project.key.urlsafe()}}">
                 {{project.title}}
               </a>
-              <iframe src="/viewproject?key={{project.key.urlsafe()}}" class="panelBox redborder" scrolling="no"></iframe>
+              <object type="text/html" data="/preview?key={{project.key.urlsafe()}}">
+              </object>
+
             </td>
             {% set count = count+1 %}
 
@@ -68,8 +70,8 @@
               <a href="/viewproject?key={{project.key.urlsafe()}}">
                   {{project.title}}
               </a>
-              <iframe src="/viewproject?key={{project.key.urlsafe()}}" class="panelBox.redborder" scrolling="no"></iframe>
-
+              <object type="text/html" data="/preview?key={{project.key.urlsafe()}}">
+              </object>
             </td>
         </tr>
         {% set count = count+1 %}
