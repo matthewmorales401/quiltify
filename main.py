@@ -14,13 +14,12 @@ env = jinja2.Environment(
 
 class Project(ndb.Model):
     owner = ndb.KeyProperty()
-    completed = ndb.BooleanProperty()
     rows = ndb.IntegerProperty()
     columns = ndb.IntegerProperty()
     created_time = ndb.DateTimeProperty()
+    title = ndb.StringProperty()
 
 class Panel(ndb.Model):
-    filled = False
     height = ndb.IntegerProperty()
     width = ndb.IntegerProperty()
     panel_id = ndb.IntegerProperty()
@@ -92,6 +91,9 @@ class viewProject(webapp2.RequestHandler):
         else:
             current_person = None
 
+        # project_url_key = self.request.get('project_key')
+        # project_key = ndb.Key(urlsafe=project_url_key)
+
         templateVars = { #this is a dictionary
             "current_user" : current_user,
             "login_url" : login_url,
@@ -104,12 +106,28 @@ class viewProject(webapp2.RequestHandler):
         self.response.write(template.render(templateVars))
 
     def post(self):
-        firstname = self.request.get('firstname')
-        lastname = self.request.get('lastname')
-        biography = self.request.get('biography')
-        email=users.get_current_user().email()
-        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
-        newUser.put()
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        rows = int(self.request.get('rows'))
+        columns = int(self.request.get('columns'))
+        current_user = users.get_current_user()
+        title = self.request.get('title')
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+            newProject = Project(owner=current_person.key, rows=rows,
+            columns=columns, title=title,)
+            newProject.put()
+            newProject_key = newProject.key
+            for i in range(1, rows*columns + 1):
+                newPanel = Panel(project_key=newProject_key, width=80, height=80,
+                panel_id = i,)
+                newPanel.put()
+        else:
+            current_person = None
+
         time.sleep(2)
         self.redirect("/viewproject")
 
@@ -122,10 +140,13 @@ class Profile(webapp2.RequestHandler):
         current_user = users.get_current_user()
         logout_url = users.create_logout_url("/profile")
         login_url = users.create_login_url("/profile")
+        projects = None
 
         if current_user:
             current_email = current_user.email()
             current_person = user_query.filter(User.email == current_email).get()
+            if current_person:
+                projects = Project.query().filter(Project.owner == current_person.key)
         else:
             current_person = None
 
@@ -135,6 +156,7 @@ class Profile(webapp2.RequestHandler):
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
+            "projects" : projects,
         }
 
         template = env.get_template("templates/profile.html")
@@ -146,7 +168,8 @@ class Profile(webapp2.RequestHandler):
         lastname = self.request.get('lastname')
         biography = self.request.get('biography')
         email=users.get_current_user().email()
-        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
+        newUser = User(firstname=firstname, lastname=lastname,
+        biography=biography, email=email)
         newUser.put()
         time.sleep(2)
 

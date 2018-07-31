@@ -50,6 +50,14 @@
     </div>
     <div class="divider">
     </div>
+    <div class="listprojects">
+      {% if projects %}
+        {% for project in projects %}
+          <div class="displayproject">
+            {{project.title}}
+        {% endfor %}
+      {% endif %}
+    </div>
 
   </div>
 </div>

@@ -15,17 +15,6 @@
         <p style="font-family: 'Quicksand', sans-serif; font-size: 18px;">
           {{current_person.firstname}} {{current_person.lastname}}</p>
         <p>{{current_user.email()}}</p>
-      {% else %}
-        <div class="createaccount">
-            <div id="input_box" class="box_card">
-              <form method="post" action="/viewproject">
-                Your name: <input name="firstname" value="First" onclick="this.select()">
-                <input name="lastname" value="Last" onclick="this.select()"><br>
-                Bio: <input name="biography">
-                <button>Create Profile</button>
-              </form>
-            </div>
-        </div>
       {% endif %}
       <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a><p>
     {% else %}
