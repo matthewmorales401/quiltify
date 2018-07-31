@@ -3,48 +3,6 @@
 <link rel="stylesheet" href="../stylesheets/stylesheet.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
 
-
-
-<style>
-body {
-font-family: 'Quicksand', sans-serif;
-}
-
-table {
-    border-collapse: separate;
-    border-spacing: 100px 50px;
-}
-
-
-#create {
-    background-color: #e7e7e7; /* Green */
-    border: none;
-    color: black;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-
-}
-#create:hover {
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-
-}
-#artworks {
-  height: 400px; /*make adjustable as extension*/
-  width: 400px;
-  border: 1px solid black;
-  min-width: 400px;
-  min-height: 400px;
-
-  }
-
-
-</style>
-
-
-
 <div class="heading">
   <div class="webtitle" onclick="location.href='/'">
     <img class="logo" src="../photos/logo.png">
@@ -76,32 +34,32 @@ table {
   </div>
 </div>
 
+<div class="pagebody" style="flex-direction: column">
+  <br></br>
+  <h1 style="text-align: center;">BROWSE THE LATEST PROJECTS</h1>
+  <form action="/" method="post">
+  <h2 style="text-align: center;"><button id="create" style="margin-top: 30px;">CREATE A NEW PROJECT</button></h2>
+  </form>
+  <div class="divider"></div>
+  <table align="center" id="columns" cellspacing="100">
+      <!--put in profiles-->
 
 
+    <tr>
+      <td class="artworks redborder"><a href="/">{{projects}}
+      </a></td>
 
-<br></br>
-<h1 style="text-align: center;">BROWSE THE LATEST PROJECTS</h1>
-
-<form action="/" method="post">
-<h2 style="text-align: center;"><button id="create" style="margin-top: 30px;">CREATE A NEW PROJECT</button></h2>
-</form>
-
-<table align="center" id="columns">
-    <!--put in profiles-->
-  <tr>
-    <td id="artworks"><a href="/">{{projects}}
-    </a></td>
-
-    <td id="artworks">{{projects}}
-    </td>
-  </tr>
+      <td class="artworks redborder">{{projects}}
+      </td>
+    </tr>
 
 
-  <tr>
-    <td id="artworks">{{projects}}
-    </td>
+    <tr>
+      <td class="artworks redborder">{{projects}}
+      </td>
 
-    <td id="artworks">{{projects}}
-    </td>
-  </tr>
-</table>
+      <td class="artworks redborder">{{projects}}
+      </td>
+    </tr>
+  </table>
+</div>

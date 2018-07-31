@@ -13,22 +13,21 @@ env = jinja2.Environment(
 )
 
 class Project(ndb.Model):
-    collaborators = []
-    completed = ndb.BooleanProperty()
-    panels = []
-    numPanels = ndb.IntegerProperty()
-    panelsRemaining = ndb.IntegerProperty()
-    created_time = ndb.DateTimeProperty()
+    owner = ndb.KeyProperty()
+    rows = ndb.IntegerProperty()
+    columns = ndb.IntegerProperty()
+    created_time = ndb.DateTimeProperty(auto_now_add=True)
+    title = ndb.StringProperty()
 
 class Panel(ndb.Model):
-    filled = False
-    height = 80
-    width = 80
-    creator = ndb.StringProperty()
-    content = "i'm a panel"
+    height = ndb.IntegerProperty()
+    width = ndb.IntegerProperty()
+    panel_id = ndb.IntegerProperty()
+    creator = ndb.KeyProperty()
+    content = ndb.StringProperty()
+    project_key = ndb.KeyProperty() #project_key = project_name.key
 
 class User(ndb.Model):
-    projects = []
     firstname = ndb.StringProperty()
     lastname = ndb.StringProperty()
     email = ndb.StringProperty()
@@ -82,6 +81,11 @@ class viewProject(webapp2.RequestHandler):
         user_query = User.query()
         user_list = user_query.fetch()
 
+        project_key = ndb.Key(urlsafe = self.request.get('key'))
+        panels = Panel.query().order(Panel.panel_id).filter(Panel.project_key == project_key).fetch()
+
+        project = project_key.get()
+
         current_user = users.get_current_user()
         logout_url = users.create_logout_url("/viewproject")
         login_url = users.create_login_url("/viewproject")
@@ -92,14 +96,78 @@ class viewProject(webapp2.RequestHandler):
         else:
             current_person = None
 
+        # project_url_key = self.request.get('project_key')
+        # project_key = ndb.Key(urlsafe=project_url_key)
+
         templateVars = { #this is a dictionary
             "current_user" : current_user,
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
+            "panels" : panels,
+            "project" : project,
         }
 
         template = env.get_template("templates/viewProject.html")
+
+        self.response.write(template.render(templateVars))
+
+    def post(self):
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        rows = int(self.request.get('rows'))
+        columns = int(self.request.get('columns'))
+        current_user = users.get_current_user()
+        title = self.request.get('title')
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+            newProject = Project(owner=current_person.key, rows=rows,
+            columns=columns, title=title,)
+            newProject.put()
+            newProject_key = newProject.key
+            for i in range(1, rows*columns + 1):
+                newPanel = Panel(project_key=newProject_key, width=200, height=200,
+                panel_id = i, content="THIS IS A PANEL")
+                newPanel.put()
+        else:
+            current_person = None
+
+        time.sleep(2)
+        self.redirect("/viewproject?key=" + newProject_key.urlsafe())
+
+class Profile(webapp2.RequestHandler):
+    def get(self):
+
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        current_user = users.get_current_user()
+        logout_url = users.create_logout_url("/profile")
+        login_url = users.create_login_url("/profile")
+        projects = None
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+            if current_person:
+                projects = Project.query().filter(Project.owner == current_person.key)
+                projects = projects.order(Project.created_time)
+        else:
+            current_person = None
+
+        templateVars = { #this is a dictionary
+            "current_user" : current_user,
+            "user_list" : user_list,
+            "login_url" : login_url,
+            "logout_url" : logout_url,
+            "current_person" : current_person,
+            "projects" : projects,
+        }
+
+        template = env.get_template("templates/profile.html")
 
         self.response.write(template.render(templateVars))
 
@@ -108,14 +176,15 @@ class viewProject(webapp2.RequestHandler):
         lastname = self.request.get('lastname')
         biography = self.request.get('biography')
         email=users.get_current_user().email()
-        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
+        newUser = User(firstname=firstname, lastname=lastname,
+        biography=biography, email=email)
         newUser.put()
         time.sleep(2)
-        self.redirect("/viewproject")
 
-class Profile(webapp2.RequestHandler):
+        self.redirect("/profile")
+
+class NewProject(webapp2.RequestHandler):
     def get(self):
-
         user_query = User.query()
         user_list = user_query.fetch()
 
@@ -137,23 +206,13 @@ class Profile(webapp2.RequestHandler):
             "current_person" : current_person,
         }
 
-        template = env.get_template("templates/profile.html")
+        template = env.get_template("templates/newproject.html")
 
         self.response.write(template.render(templateVars))
-
-    def post(self):
-        firstname = self.request.get('firstname')
-        lastname = self.request.get('lastname')
-        biography = self.request.get('biography')
-        email=users.get_current_user().email()
-        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
-        newUser.put()
-        time.sleep(2)
-
-        self.redirect("/profile")
 
 app = webapp2.WSGIApplication([
     ("/", MainPage),
     ("/viewproject", viewProject),
     ("/profile", Profile),
+    ("/newproject", NewProject),
 ], debug=True)
