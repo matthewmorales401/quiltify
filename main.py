@@ -5,6 +5,8 @@ import time
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from google.appengine.api import images
+from google.appengine.ext import blobstore
 
 env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -24,7 +26,7 @@ class Panel(ndb.Model):
     width = ndb.IntegerProperty()
     panel_id = ndb.IntegerProperty()
     creator = ndb.KeyProperty()
-    content = ndb.StringProperty()
+    content = ndb.BlobProperty()
     project_key = ndb.KeyProperty() #project_key = project_name.key
 
 class User(ndb.Model):
@@ -82,7 +84,8 @@ class viewProject(webapp2.RequestHandler):
         user_list = user_query.fetch()
 
         project_key = ndb.Key(urlsafe = self.request.get('key'))
-        panels = Panel.query().order(Panel.panel_id).filter(Panel.project_key == project_key).fetch()
+        panels_query = Panel.query().order(Panel.panel_id)
+        panels = panels_query.filter(Panel.project_key == project_key).fetch()
 
         project = project_key.get()
 
