@@ -28,22 +28,18 @@
   <div class="content">
 
     <div class="pageheader">
-      <h2 style="float: left">{{project.title}}</h2>
+      <h2 style="float: left">{{project.title}}: Panel {{panel.panel_id}}</h2>
     </div>
     <div class="divider"></div>
     <div class="panelBox redborder">
-      {% for panel in panels %}
-        <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;">
-          {{panel.content}}
-          <form method="get" action="updatepanel" style="position: absolute; bottom: 0;">
-            <div style="display: none;">
-              <input name="key" value="{{panel.key.urlsafe()}}">
-            </div>
-            <input class="smallbutton" type="submit" value="Edit">
-          </form>
-        </div>
-
-      {% endfor %}
+      <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px">
+        {{panel.content}}
+      </div>
+      <div>
+        <form action="/updatepanel" action="post">
+          <button class="submitbutton">Upload Image</button>
+        </form>
+      </div>
     </div>
 
   </div>
