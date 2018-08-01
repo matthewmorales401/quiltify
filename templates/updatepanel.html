@@ -16,7 +16,7 @@
           {{current_person.firstname}} {{current_person.lastname}}</p>
         <p>{{current_user.email()}}</p>
       {% endif %}
-      <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a><p>
+      <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a></p>
     {% else %}
       <br><br>
       <a href="{{login_url}}">Log In</a>
@@ -43,8 +43,12 @@
         </form>
 
         <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px">
-          <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
-          alt="PANEL CONTENT">
+          {% if panel.filled %}
+            <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
+            alt="PANEL CONTENT">
+          {% else %}
+            <img width="{{panel.width}}" src="../photos/upload.png">
+          {% endif %}
         </div>
 
       </div>
