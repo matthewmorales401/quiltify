@@ -156,7 +156,7 @@ class viewProject(webapp2.RequestHandler):
 
                 for j in range(1, rows + 1):
                     newPanel = Panel(project_key=newProject_key, width=200, height=200,
-                    panel_id = (j*i), content="%d %d" %(j, i))
+                    panel_id = (j*rows+i), content="%d %d" %(j, i))
                     newPanel.put()
         else:
             current_person = None

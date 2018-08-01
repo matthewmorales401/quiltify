@@ -11,36 +11,49 @@ table {
   <table align="center" id="homepageDisplay">
     {% set count = 1 %}
     {% for panel in panels %}
-    <!--if there are 2 rows 2 columns!-->
-                          {% if count%2==1 %}
-                          <tr>
-                            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
-                            <div class="panel">
-                              {% if panel.filled %}
-                                <img width="175px" src="/photo?key={{panel.key.urlsafe()}}"
-                                alt="PANEL CONTENT">
-                              {% else %}
-                                <img width="175px" src="../photos/upload.png">
-                              {% endif %}
-                            </div>
-                          </td>
-                          {% set count = count+1 %}
+    {% set columns = project.columns %}
+      {% if count%(columns)==1 %}
+        <tr>
+          <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+            <div class="panel">
+              {% if panel.filled %}
+                <img width="100%" src="/photo?key={{panel.key.urlsafe()}}"
+                alt="PANEL CONTENT">
+              {% else %}
+                <img width="100%" src="../photos/upload.png">
+              {% endif %}
+            </div>
+          </td>
+          {% set count = count+1 %}
 
-                          {% else %}
+      {% elif count%(columns)==columns %}
+        <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+          <div class="panel">
+            {% if panel.filled %}
+              <img width="100%" src="/photo?key={{panel.key.urlsafe()}}"
+              alt="PANEL CONTENT">
+              {% else %}
+              <img width="100%" src="../photos/upload.png">
+              {% endif %}
+            </div>
+        </td>
+        </tr>
+        {% set count = count+1 %}
 
-                            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
-                            <div class="panel">
-                              {% if panel.filled %}
-                                <img width="175px" src="/photo?key={{panel.key.urlsafe()}}"
-                                alt="PANEL CONTENT">
-                              {% else %}
-                                <img width="175px" src="../photos/upload.png">
-                              {% endif %}
-                            </div>
-                          </td>
-                        </tr>
-                        {% set count = count+1 %}
-
-                        {% endif %}
-  {% endfor %}
+      {% else %}
+        <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+          <div class="panel">
+            {% if panel.filled %}
+              <img width="100%" src="/photo?key={{panel.key.urlsafe()}}"
+              alt="PANEL CONTENT">
+            {% else %}
+              <img width="100%" src="../photos/upload.png">
+            {% endif %}
+          </div>
+        </td>
+        {% set count = count+1 %}
+      {% endif %}
+      
+    {% endfor %}
+  </table>
 </div>
