@@ -44,10 +44,10 @@
 
         <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px">
           {% if panel.filled %}
-            <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
+            <img width="{{panel.width}}" height="{{panel.height}}" src="/photo?key={{panel.key.urlsafe()}}"
             alt="PANEL CONTENT">
           {% else %}
-            <img width="{{panel.width}}" src="../photos/upload.png">
+            <img width="{{panel.width}}" height="{{panel.height}}" src="../photos/upload.png">
           {% endif %}
         </div>
 

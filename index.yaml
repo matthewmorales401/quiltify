@@ -19,3 +19,9 @@ indexes:
   properties:
   - name: owner
   - name: created_time
+
+- kind: Project
+  properties:
+  - name: owner
+  - name: created_time
+    direction: desc

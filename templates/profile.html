@@ -47,7 +47,7 @@
       <p>{{current_person.biography}}</p>
     </div>
   </div>
-  
+
   <div class="content redborder">
 
     <div class="pageheader">
@@ -64,11 +64,14 @@
     <div class="listprojects">
       {% if projects %}
         {% for project in projects %}
-          <div class="displayproject redborder">
-            {{project.title}}
+          <div class="displayproject redborder"
+          {% if project.get().owner.get() != current_person %}
+            style="background-color: #f8f7f9;"
+          {% endif %}>
+            {{project.get().title}}
             <form method="get" action="viewproject">
               <div style="display: none;">
-                <input name="key" value="{{project.key.urlsafe()}}">
+                <input name="key" value="{{project.urlsafe()}}">
               </div>
               <input class="submitbutton" type="submit" value="View Project">
             </form>
