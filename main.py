@@ -156,7 +156,7 @@ class viewProject(webapp2.RequestHandler):
 
                 for j in range(1, rows + 1):
                     newPanel = Panel(project_key=newProject_key, width=200, height=200,
-                    panel_id = (j*i), content="%d %d" %(j, i))
+                                     panel_id=((i)+columns*(j-1)), content="%d %d" %(j, i))
                     newPanel.put()
         else:
             current_person = None
@@ -416,6 +416,28 @@ class Preview(webapp2.RequestHandler):
 
         self.response.write(template.render(templateVars))
 
+class EditTitle(webapp2.RequestHandler):
+    def get(self):
+
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        current_user = users.get_current_user()
+        current_email = current_user.email()
+
+        current_person = user_query.filter(User.email == current_email).get()
+        profile = current_person
+
+        templateVars = { #this is a dictionary
+            "profile" : profile,
+            "current_person" : current_person,
+            "current_user" : current_user,
+            }
+
+        template = env.get_template("templates/edittitle.html")
+
+        self.response.write(template.render(templateVars))
+
 
 app = webapp2.WSGIApplication([
     ("/", MainPage),
@@ -428,5 +450,6 @@ app = webapp2.WSGIApplication([
     ("/photo", PhotoHandler),
     ("/profilepic", ProfilePictureHandler),
     ("/preview", Preview),
-    ("/editprofile", EditProfile)
+    ("/editprofile", EditProfile),
+    ("/edittitle", EditTitle)
 ], debug=True)
