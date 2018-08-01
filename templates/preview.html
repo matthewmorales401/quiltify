@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <title>preview</title>
 
-<div class="panelBox redborder"  style="max-height: 100%;
-    max-width: 100%; object-fit: scale-down;">
-  {% for panel in panels %}
-    <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;">
+
+
+<div class="panelBox redborder">
+  {% for panel_row in panel_rows %}
+  <div class="row">
+    {% for panel in panel_row %}
+    <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;"
+    onclick="location.href='/updatepanel?key={{panel.key.urlsafe()}}'">
       {% if panel.filled %}
-        <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
+        <img width="{{panel.width}}" height="{{panel.height}}" src="/photo?key={{panel.key.urlsafe()}}"
         alt="PANEL CONTENT">
       {% else %}
         <img width="{{panel.width}}" src="../photos/upload.png">
       {% endif %}
     </div>
-
+    {% endfor %}
+  </div>
   {% endfor %}
 </div>

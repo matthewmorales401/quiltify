@@ -149,12 +149,10 @@ class viewProject(webapp2.RequestHandler):
             current_person = user_query.filter(User.email == current_email).get()
             newProject = Project(owner=current_person.key, rows=rows,
             columns=columns, title=title,)
+            newProject_key = newProject.key
             newProject.put()
             newProject_key = newProject.key
-            for i in range(1, rows + 1):
-                newPanel = Panel(project_key=newProject_key, width=200, height=200,
-                panel_id = i, content="THIS IS A PANEL", filled=False)
-                newPanel.put()
+
             for i in range(1, rows + 1):
 
                 for j in range(1, columns + 1):
@@ -320,7 +318,26 @@ class Preview(webapp2.RequestHandler):
 
         project_key = ndb.Key(urlsafe = self.request.get('key'))
         panels_query = Panel.query().order(Panel.panel_id)
-        panels = panels_query.filter(Panel.project_key == project_key).fetch()
+        panels_query = Panel.query().order(Panel.panel_id)
+        all_panels = panels_query.filter(Panel.project_key == project_key).fetch()
+
+        print "all panels", all_panels
+        project = project_key.get()
+        rows = project.rows
+        columns = project.columns
+        print("rows", rows)
+        print("columns", columns)
+
+        panel_rows = []
+
+        for i in range(rows):
+            row = []
+            for j in range(columns):
+                index_in_all_panels = columns * i + j
+                print("index_in_all_panels", index_in_all_panels)
+                panel_to_append = all_panels[index_in_all_panels]
+                row.append(panel_to_append)
+            panel_rows.append(row)
 
         project = project_key.get()
 
@@ -342,7 +359,7 @@ class Preview(webapp2.RequestHandler):
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
-            "panels" : panels,
+            "panel_rows" : panel_rows,
             "project" : project,
         }
 
