@@ -40,11 +40,11 @@
   <div class="navbar" style="padding: 0px; margin-right: 10px;">
     <div class="redborder" style="padding: 10px;">
       <img class="profilepic" src="../photos/profile.png">
-      <h2 style="font-weight: 600;">{{current_person.firstname}} {{current_person.lastname}}</h2>
+      <h2 style="font-weight: 600;">{{profile.firstname}} {{profile.lastname}}</h2>
       {% if current_user %}
-        <p>{{current_user.email()}}
+        <p>{{profile.email}}
       {% endif %}
-      <p>{{current_person.biography}}</p>
+      <p>{{profile.biography}}</p>
     </div>
   </div>
 
@@ -53,7 +53,7 @@
     <div class="pageheader">
       <h2 style="float: left">My Projects</h2>
       <div style=" float: right; padding-right: 10px">
-        {% if current_person %}
+        {% if current_person.email == profile.email %}
         <a href="newproject" class="submitbutton" style="margin: 10px; line-height: 45px;">
           New Project</a>
         {% endif %}
@@ -65,12 +65,13 @@
       {% if projects %}
         {% for project in projects %}
           <div class="displayproject redborder"
-          {% if project.get().owner.get() != current_person %}
+          {% if project.get().owner.get() != profile %}
             style="background-color: #f8f7f9;"
           {% endif %}>
             {{project.get().title}}
             <p style="font-style: italic; color: #696969; line-height: 0px;">
-              Owner: {{project.get().owner.get().email}}</p>
+              Owner: <a href="profile?profile_key={{project.get().owner.get().key.urlsafe()}}">
+                {{project.get().owner.get().email}}</a></p>
             <form method="get" action="viewproject">
               <div style="display: none;">
                 <input name="key" value="{{project.urlsafe()}}">

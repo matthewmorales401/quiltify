@@ -247,28 +247,40 @@ class Profile(webapp2.RequestHandler):
         login_url = users.create_login_url("/profile")
         projects = None
         projectDict = None
-
+        current_person = None
         if current_user:
             current_email = current_user.email()
             current_person = user_query.filter(User.email == current_email).get()
-            if current_person:
-                projects = Project.query().filter(Project.owner == current_person.key)
-                projects = projects.order(-Project.created_time)
-                panels = Panel.query().filter(Panel.creator == current_person.key)
-                projectDict = {}
-                for project in projects:
-                    projectDict[project.key] = True
-                for panel in panels:
-                    if not panel.project_key in projectDict:
-                        projectDict[panel.project_key] = True
+
+        profile_key = self.request.get('profile_key')
+
+        if profile_key:
+            profile = ndb.Key(urlsafe=profile_key).get()
+            if profile.key == current_person.key:
+                self.redirect("/profile")
         else:
-            current_person = None
+            profile = None
+            if current_person:
+                profile = current_person
+
+
+        if profile:
+            projects = Project.query().filter(Project.owner == profile.key)
+            projects = projects.order(-Project.created_time)
+            panels = Panel.query().filter(Panel.creator == profile.key)
+            projectDict = {}
+            for project in projects:
+                projectDict[project.key] = True
+            for panel in panels:
+                if not panel.project_key in projectDict:
+                    projectDict[panel.project_key] = True
 
         templateVars = { #this is a dictionary
             "current_user" : current_user,
             "user_list" : user_list,
             "login_url" : login_url,
             "logout_url" : logout_url,
+            "profile" : profile,
             "current_person" : current_person,
             "projects" : projectDict,
         }
