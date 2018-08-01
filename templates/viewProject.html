@@ -17,7 +17,10 @@
         <p>{{current_user.email()}}</p>
       {% endif %}
       <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a><p>
-    {% else %}
+        {% if project.owner %}
+          <p><a href="{{edit_url}}">Edit</a> | <a href="{{delete_url}}">Delete</a><p>
+        {% endif %}
+      {% else %}
       <br><br>
       <a href="{{login_url}}">Log In</a>
     {% endif %}
