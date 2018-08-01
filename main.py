@@ -28,6 +28,7 @@ class Panel(ndb.Model):
     creator = ndb.KeyProperty()
     content = ndb.BlobProperty()
     project_key = ndb.KeyProperty() #project_key = project_name.key
+    filled = ndb.BooleanProperty()
 
 class User(ndb.Model):
     firstname = ndb.StringProperty()
@@ -95,6 +96,11 @@ class viewProject(webapp2.RequestHandler):
 
         panel_rows = []
 
+        for i in range(1, rows*columns + 1):
+            newPanel = Panel(project_key=newProject_key, width=300, height=300,
+            panel_id = i, content="THIS IS A PANEL", filled=False)
+            newPanel.put()
+
         for i in range(rows):
             row = []
             for j in range(columns):
@@ -150,6 +156,10 @@ class viewProject(webapp2.RequestHandler):
             columns=columns, title=title,)
             newProject.put()
             newProject_key = newProject.key
+            for i in range(1, rows*columns + 1):
+                newPanel = Panel(project_key=newProject_key, width=300, height=300,
+                panel_id = i, content="THIS IS A PANEL", filled=False)
+                newPanel.put()
             for i in range(1, rows + 1):
 
                 for j in range(1, columns + 1):
@@ -200,19 +210,6 @@ class UpdatePanel(webapp2.RequestHandler):
 
         self.response.write(template.render(templateVars).format(upload_url))
 
-    def post(self):
-        user_query = User.query()
-        user_list = user_query.fetch()
-
-        current_user = users.get_current_user()
-
-        if current_user:
-            current_email = current_user.email()
-            current_person = user_query.filter(User.email == current_email).get()
-
-        else:
-            current_person = None
-
 class PhotoUploadHandler(webapp2.RequestHandler):
     def post(self):
         user_query = User.query()
@@ -225,6 +222,7 @@ class PhotoUploadHandler(webapp2.RequestHandler):
 
         panel = panel_key.get()
         panel.content = upload
+        panel.filled = True
 
         if current_user:
             current_email = current_user.email()
