@@ -53,7 +53,7 @@
 
       </div>
       <div style="padding: 5px; margin: 10px;">
-        {% if current_person %}
+        {% if current_person.email == panel.creator.get().email %}
         <form action="uploadphoto" method="POST" enctype="multipart/form-data">
           <div style="display: none;">
             <input name="key" value="{{panel.key.urlsafe()}}">
