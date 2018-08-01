@@ -85,9 +85,29 @@ class viewProject(webapp2.RequestHandler):
 
         project_key = ndb.Key(urlsafe = self.request.get('key'))
         panels_query = Panel.query().order(Panel.panel_id)
-        panels = panels_query.filter(Panel.project_key == project_key).fetch()
+        all_panels = panels_query.filter(Panel.project_key == project_key).fetch()
 
+        print "all panels", all_panels
         project = project_key.get()
+        rows = project.rows
+        columns = project.columns
+        print("rows", rows)
+        print("columns", columns)
+
+        panel_rows = []
+
+        for i in range(rows):
+            row = []
+            for j in range(columns):
+                index_in_all_panels = columns * i + j
+                print("index_in_all_panels", index_in_all_panels)
+                panel_to_append = all_panels[index_in_all_panels]
+                row.append(panel_to_append)
+            panel_rows.append(row)
+
+
+        # For however many rows,
+        # Create a new row and add column however many panels
 
         current_user = users.get_current_user()
         logout_url = users.create_logout_url("/")
@@ -107,7 +127,7 @@ class viewProject(webapp2.RequestHandler):
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
-            "panels" : panels,
+            "panel_rows" : panel_rows,
             "project" : project,
         }
 
@@ -131,10 +151,12 @@ class viewProject(webapp2.RequestHandler):
             columns=columns, title=title,)
             newProject.put()
             newProject_key = newProject.key
-            for i in range(1, rows*columns + 1):
-                newPanel = Panel(project_key=newProject_key, width=300, height=300,
-                panel_id = i, content="THIS IS A PANEL", filled=False)
-                newPanel.put()
+            for i in range(1, rows + 1):
+
+                for j in range(1, columns + 1):
+                    newPanel = Panel(project_key=newProject_key, width=200, height=200,
+                    panel_id = i*columns+j, content="%d %d" %(i, j))
+                    newPanel.put()
         else:
             current_person = None
 
