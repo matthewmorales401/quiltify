@@ -27,8 +27,10 @@
 <div class="pagebody">
   <div class="content">
 
-    <div class="pageheader">
-      <h2 style="float: left">{{project.title}}</h2>
+    <div class="pageheader" style="flex: none;">
+      <h2 style="">{{project.title}}</h2>
+      <p style="font-style: italic; color: #696969; line-height: 15px; padding-left: 10px;">
+        Owner: {{project.owner.get().email}}</p>
     </div>
     <div class="divider"></div>
     <div class="panelBox redborder">

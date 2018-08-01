@@ -69,6 +69,8 @@
             style="background-color: #f8f7f9;"
           {% endif %}>
             {{project.get().title}}
+            <p style="font-style: italic; color: #696969; line-height: 0px;">
+              Owner: {{project.get().owner.get().email}}</p>
             <form method="get" action="viewproject">
               <div style="display: none;">
                 <input name="key" value="{{project.urlsafe()}}">
