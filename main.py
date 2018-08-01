@@ -250,6 +250,7 @@ class Profile(webapp2.RequestHandler):
         logout_url = users.create_logout_url("/profile")
         login_url = users.create_login_url("/profile")
         projects = None
+        projectDict = None
 
         if current_user:
             current_email = current_user.email()
