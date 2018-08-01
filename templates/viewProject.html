@@ -32,7 +32,7 @@
     </div>
     <div class="divider"></div>
     <div class="panelBox redborder">
-      {% for panel_row in panels_rows %}
+      {% for panel_row in panel_rows %}
       <div class="row">
         {% for panel in panel_row %}
         <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;"
@@ -50,6 +50,7 @@
       </div>
       {% endfor %}
     </div>
+
   </div>
 
 </div>
