@@ -96,6 +96,11 @@ class viewProject(webapp2.RequestHandler):
 
         panel_rows = []
 
+        for i in range(1, rows*columns + 1):
+            newPanel = Panel(project_key=newProject_key, width=300, height=300,
+            panel_id = i, content="THIS IS A PANEL", filled=False)
+            newPanel.put()
+
         for i in range(rows):
             row = []
             for j in range(columns):
@@ -151,12 +156,19 @@ class viewProject(webapp2.RequestHandler):
             columns=columns, title=title,)
             newProject.put()
             newProject_key = newProject.key
+<<<<<<< HEAD
+            for i in range(1, rows*columns + 1):
+                newPanel = Panel(project_key=newProject_key, width=300, height=300,
+                panel_id = i, content="THIS IS A PANEL", filled=False)
+                newPanel.put()
+=======
             for i in range(1, rows + 1):
 
                 for j in range(1, columns + 1):
                     newPanel = Panel(project_key=newProject_key, width=200, height=200,
                     panel_id = i*columns+j, content="%d %d" %(i, j))
                     newPanel.put()
+>>>>>>> b2358a23e6b97842c2b824bd6a7f8e0fa39c8566
         else:
             current_person = None
 
