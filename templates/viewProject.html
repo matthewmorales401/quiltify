@@ -32,7 +32,9 @@
     </div>
     <div class="divider"></div>
     <div class="panelBox redborder">
-      {% for panel in panels %}
+      {% for panel_row in panels_rows %}
+      <div class="row">
+        {% for panel in panel_row %}
         <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;"
         onclick="location.href='/updatepanel?key={{panel.key.urlsafe()}}'">
           <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
@@ -44,7 +46,8 @@
             <input class="smallbutton" type="submit" value="Edit">
           </form> -->
         </div>
-
+        {% endfor %}
+      </div>
       {% endfor %}
     </div>
   </div>
