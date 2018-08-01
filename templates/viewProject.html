@@ -16,10 +16,8 @@
           {{current_person.firstname}} {{current_person.lastname}}</p>
         <p>{{current_user.email()}}</p>
       {% endif %}
-      <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a><p>
-        {% if project.owner %}
-          <p><a href="{{edit_url}}">Edit</a> | <a href="{{delete_url}}">Delete</a><p>
-        {% endif %}
+        <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">
+        Log Out</a><p>
       {% else %}
       <br><br>
       <a href="{{login_url}}">Log In</a>
@@ -27,13 +25,16 @@
   </div>
 </div>
 
+
+
 <div class="pagebody">
   <div class="content">
 
-    <div class="pageheader" style="flex: none;">
-      <h2 style="">{{project.title}}</h2>
-      <p style="font-style: italic; color: #696969; line-height: 15px; padding-left: 10px;">
-        Owner:
+    <div class="pageheader" style="flex: none; height: 70px">
+      <div style="float: left">
+        <h2 style="">{{project.title}}</h2>
+        <p style="font-style: italic; color: #696969; line-height: 15px; padding-left: 10px;">
+          Owner:
           {% if project.owner %}
             <a href="profile?profile_key={{project.owner.get().key.urlsafe()}}">
             {{project.owner.get().firstname}} {{project.owner.get().lastname}}</a>
@@ -41,8 +42,21 @@
             None
           {% endif %}
         </p>
+      </div>
+      <div style="float: right">
+        {% if project.owner.get().email == current_person.email %}
+          <a href="" class="pageheaderbutton">
+          Edit</a><br>
+          <a href="" class="pageheaderbutton">
+          Delete</a>
+        {% endif %}
+      </div>
     </div>
+
+
     <div class="divider"></div>
+
+
     <div class="panelBox redborder">
       {% for panel_row in panel_rows %}
       <div class="row">
