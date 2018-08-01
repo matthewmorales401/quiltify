@@ -85,6 +85,22 @@ a.logo {
   cursor: pointer;
 }
 
+.pageheaderbutton {
+  background-color: #d5efef;
+  float: right;
+  margin: 3px;
+  margin-right: 20px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 12px;
+}
+
+.pageheaderbutton:hover {
+  background-color: #BEE7E8;
+  cursor: pointer;
+}
+
 .smallbutton {
   background-color: gainsboro;
   font-size: 10px;
