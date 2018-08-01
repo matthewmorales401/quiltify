@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<title>preview</title>
+
+<div class="panelBox redborder">
+  {% for panel in panels %}
+    <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;"
+  >
+      <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
+      alt="PANEL CONTENT">
+    </div>
+
+  {% endfor %}
+</div>

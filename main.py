@@ -109,8 +109,8 @@ class viewProject(webapp2.RequestHandler):
         # Create a new row and add column however many panels
 
         current_user = users.get_current_user()
-        logout_url = users.create_logout_url("/viewproject")
-        login_url = users.create_login_url("/viewproject")
+        logout_url = users.create_logout_url("/")
+        login_url = users.create_login_url("/")
 
         if current_user:
             current_email = current_user.email()
@@ -318,6 +318,47 @@ class NewProject(webapp2.RequestHandler):
 
         self.response.write(template.render(templateVars))
 
+
+class Preview(webapp2.RequestHandler):
+    def get(self):
+
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        project_key = ndb.Key(urlsafe = self.request.get('key'))
+        panels_query = Panel.query().order(Panel.panel_id)
+        panels = panels_query.filter(Panel.project_key == project_key).fetch()
+
+        project = project_key.get()
+
+        current_user = users.get_current_user()
+        logout_url = users.create_logout_url("/preview")
+        login_url = users.create_login_url("/preview")
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+        else:
+            current_person = None
+
+        # project_url_key = self.request.get('project_key')
+        # project_key = ndb.Key(urlsafe=project_url_key)
+
+        templateVars = { #this is a dictionary
+            "current_user" : current_user,
+            "login_url" : login_url,
+            "logout_url" : logout_url,
+            "current_person" : current_person,
+            "panels" : panels,
+            "project" : project,
+        }
+
+        template = env.get_template("templates/preview.html")
+
+        self.response.write(template.render(templateVars))
+
+
+
 app = webapp2.WSGIApplication([
     ("/", MainPage),
     ("/viewproject", viewProject),
@@ -326,4 +367,5 @@ app = webapp2.WSGIApplication([
     ("/updatepanel", UpdatePanel),
     ("/uploadphoto", PhotoUploadHandler),
     ("/photo", PhotoHandler),
+    ("/preview", Preview)
 ], debug=True)

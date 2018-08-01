@@ -44,7 +44,7 @@
 <form action="/newproject" method="get">
   {% if current_person %}
     <h2 style="text-align: center;">
-      <button class="submitbutton" style="margin-top: 10px;">Create a New Project</button>
+      <button class="createbutton" style="margin-top: 10px;">Create a New Project</button>
     </h2>
   {% endif %}
 </form>
@@ -55,18 +55,23 @@
       {% for project in projects %}
         {% if count%2==1 %} <!--for every other project, create a new row in the table-->
         <tr>
-            <td class="artworks redborder" style="">
+            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
               <a href="/viewproject?key={{project.key.urlsafe()}}">
                 {{project.title}}
               </a>
+              <object type="text/html" data="/preview?key={{project.key.urlsafe()}}">
+              </object>
+
             </td>
             {% set count = count+1 %}
 
         {% else %}
-            <td class="artworks redborder" style="">
+            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
               <a href="/viewproject?key={{project.key.urlsafe()}}">
                   {{project.title}}
               </a>
+              <object type="text/html" data="/preview?key={{project.key.urlsafe()}}">
+              </object>
             </td>
         </tr>
         {% set count = count+1 %}
