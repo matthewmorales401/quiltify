@@ -282,7 +282,7 @@ class Profile(webapp2.RequestHandler):
 
         if profile_key:
             profile = ndb.Key(urlsafe=profile_key).get()
-            if profile.key == current_person.key:
+            if current_user and profile.key == current_person.key:
                 self.redirect("/profile")
         else:
             profile = None

@@ -46,9 +46,7 @@
         <img class="profilepic" src="../photos/profile.png">
       {% endif %}
       <h2 style="font-weight: 600;">{{profile.firstname}} {{profile.lastname}}</h2>
-      {% if current_user %}
-        <p>{{profile.email}}
-      {% endif %}
+      <p>{{profile.email}}
       <p>{{profile.biography}}</p>
       {% if current_person.email == profile.email %}
         <a href="editprofile" class="submitbutton" style="margin: 10px; line-height: 45px;">
@@ -80,7 +78,7 @@
             {{project.get().title}}
             <p style="font-style: italic; color: #696969; line-height: 0px;">
               Owner: <a href="profile?profile_key={{project.get().owner.get().key.urlsafe()}}">
-                {{project.get().owner.get().email}}</a></p>
+                {{project.get().owner.get().firstname}} {{project.get().owner.get().lastname}}</a></p>
             <form method="get" action="viewproject">
               <div style="display: none;">
                 <input name="key" value="{{project.urlsafe()}}">
