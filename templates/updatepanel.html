@@ -28,7 +28,10 @@
   <div class="content">
 
     <div class="pageheader">
-      <h2 style="float: left">{{project.title}}: Panel {{panel.panel_id}}</h2>
+      <h2 style="">{{project.title}}: Panel {{panel.panel_id}}</h2>
+      <p style="font-style: italic; color: #696969; line-height: 15px; padding-left: 10px;">
+        Creator: <a href="profile?profile_key={{panel.creator.get().key.urlsafe()}}">
+          {{panel.creator.get().email}}</a></p>
     </div>
     <div class="divider"></div>
     <div class="panelBox redborder">

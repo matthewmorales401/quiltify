@@ -35,6 +35,7 @@ class User(ndb.Model):
     lastname = ndb.StringProperty()
     email = ndb.StringProperty()
     biography = ndb.StringProperty()
+    profilepic = ndb.BlobProperty()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -228,6 +229,23 @@ class PhotoUploadHandler(webapp2.RequestHandler):
 
         self.redirect('/updatepanel?key=' + panel.key.urlsafe())
 
+class ProfilePictureUploadHandler(webapp2.RequestHandler):
+    def post(self):
+        user_query = User.query()
+        user_list = user_query.fetch()
+        upload = self.request.get("file")
+        current_user = users.get_current_user()
+
+        urlsafe_key = self.request.get('profile_key')
+        profile_key = ndb.Key(urlsafe=urlsafe_key)
+
+        profile = profile_key.get()
+        profile.profilepic = upload
+
+        profile.put()
+
+        self.redirect('/editprofile')
+
 class PhotoHandler(webapp2.RequestHandler):
     def get(self):
         urlsafe_key = self.request.get("key")
@@ -235,6 +253,14 @@ class PhotoHandler(webapp2.RequestHandler):
         panel = key.get()
         self.response.headers["Content-Type"] = "image/jpg"
         self.response.write(panel.content)
+
+class ProfilePictureHandler(webapp2.RequestHandler):
+    def get(self):
+        urlsafe_key = self.request.get("profile_key")
+        profile_key = ndb.Key(urlsafe=urlsafe_key)
+        profile = profile_key.get()
+        self.response.headers["Content-Type"] = "image/jpg"
+        self.response.write(profile.profilepic)
 
 class Profile(webapp2.RequestHandler):
     def get(self):
@@ -290,16 +316,41 @@ class Profile(webapp2.RequestHandler):
         self.response.write(template.render(templateVars))
 
     def post(self):
+
+        profile = ndb.Key(urlsafe=self.request.get('profile_key')).get()
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         biography = self.request.get('biography')
-        email=users.get_current_user().email()
-        newUser = User(firstname=firstname, lastname=lastname,
-        biography=biography, email=email)
-        newUser.put()
+
+        profile.firstname = firstname
+        profile.lastname = lastname
+        profile.biography = biography
+
+        profile.put()
         time.sleep(2)
 
         self.redirect("/profile")
+
+class EditProfile(webapp2.RequestHandler):
+    def get(self):
+
+        user_query = User.query()
+        user_list = user_query.fetch()
+
+        current_user = users.get_current_user()
+        current_email = current_user.email()
+
+        current_person = user_query.filter(User.email == current_email).get()
+        profile = current_person
+
+        templateVars = { #this is a dictionary
+            "profile" : profile,
+            "current_person" : current_person,
+            "current_user" : current_user,
+        }
+        template = env.get_template("templates/editprofile.html")
+
+        self.response.write(template.render(templateVars))
 
 class NewProject(webapp2.RequestHandler):
     def get(self):
@@ -327,7 +378,6 @@ class NewProject(webapp2.RequestHandler):
         template = env.get_template("templates/newproject.html")
 
         self.response.write(template.render(templateVars))
-
 
 class Preview(webapp2.RequestHandler):
     def get(self):
@@ -368,7 +418,6 @@ class Preview(webapp2.RequestHandler):
         self.response.write(template.render(templateVars))
 
 
-
 app = webapp2.WSGIApplication([
     ("/", MainPage),
     ("/viewproject", viewProject),
@@ -376,6 +425,9 @@ app = webapp2.WSGIApplication([
     ("/newproject", NewProject),
     ("/updatepanel", UpdatePanel),
     ("/uploadphoto", PhotoUploadHandler),
+    ("/uploadprofilepic", ProfilePictureUploadHandler),
     ("/photo", PhotoHandler),
-    ("/preview", Preview)
+    ("/profilepic", ProfilePictureHandler),
+    ("/preview", Preview),
+    ("/editprofile", EditProfile)
 ], debug=True)

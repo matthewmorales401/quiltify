@@ -39,12 +39,21 @@
 
   <div class="navbar" style="padding: 0px; margin-right: 10px;">
     <div class="redborder" style="padding: 10px;">
-      <img class="profilepic" src="../photos/profile.png">
+      {% if profile.profilepic %}
+        <img class="profilepic" src="/profilepic?profile_key={{profile.key.urlsafe()}}"
+        alt="Profile Pic">
+      {% else %}
+        <img class="profilepic" src="../photos/profile.png">
+      {% endif %}
       <h2 style="font-weight: 600;">{{profile.firstname}} {{profile.lastname}}</h2>
       {% if current_user %}
         <p>{{profile.email}}
       {% endif %}
       <p>{{profile.biography}}</p>
+      {% if current_person.email == profile.email %}
+        <a href="editprofile" class="submitbutton" style="margin: 10px; line-height: 45px;">
+        Edit Profile</a>
+      {% endif %}
     </div>
   </div>
 
@@ -54,7 +63,7 @@
       <h2 style="float: left">My Projects</h2>
       <div style=" float: right; padding-right: 10px">
         {% if current_person.email == profile.email %}
-        <a href="newproject" class="submitbutton" style="margin: 10px; line-height: 45px;">
+          <a href="newproject" class="submitbutton" style="margin: 10px; line-height: 45px;">
           New Project</a>
         {% endif %}
       </div>
