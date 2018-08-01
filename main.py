@@ -39,7 +39,7 @@ class User(ndb.Model):
 class MainPage(webapp2.RequestHandler):
     def get(self):
         project_query = Project.query()
-        project_query = project_query.order(Project.created_time)
+        project_query = project_query.order(-Project.created_time)
         projects = project_query.fetch()
 
         user_query = User.query()
@@ -253,7 +253,14 @@ class Profile(webapp2.RequestHandler):
             current_person = user_query.filter(User.email == current_email).get()
             if current_person:
                 projects = Project.query().filter(Project.owner == current_person.key)
-                projects = projects.order(Project.created_time)
+                projects = projects.order(-Project.created_time)
+                panels = Panel.query().filter(Panel.creator == current_person.key)
+                projectDict = {}
+                for project in projects:
+                    projectDict[project.key] = True
+                for panel in panels:
+                    if not panel.project_key in projectDict:
+                        projectDict[panel.project_key] = True
         else:
             current_person = None
 
@@ -263,7 +270,7 @@ class Profile(webapp2.RequestHandler):
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
-            "projects" : projects,
+            "projects" : projectDict,
         }
 
         template = env.get_template("templates/profile.html")
