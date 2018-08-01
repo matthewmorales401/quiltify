@@ -1,16 +1,46 @@
 <!DOCTYPE html>
 <title>preview</title>
+<style>
+table {
 
-<div class="panelBox redborder"  style="max-height: 100%; max-width: 100%; object-fit: scale-down;">
-  {% for panel in panels %}
-    <div class="panel" style="position: relative;">
-      {% if panel.filled %}
-        <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
-        alt="PANEL CONTENT">
-      {% else %}
-        <img width="{{panel.width}}" src="../photos/upload.png">
-      {% endif %}
-    </div>
+}
+.panel{
+}
+</style>
+<div class="panelBox redborder"  style="max-height: 100%; max-width: 100%;">
+  <table align="center" id="homepageDisplay">
+    {% set count = 1 %}
+    {% for panel in panels %}
+    <!--if there are 2 rows 2 columns!-->
+                          {% if count%2==1 %}
+                          <tr>
+                            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+                            <div class="panel">
+                              {% if panel.filled %}
+                                <img width="175px" src="/photo?key={{panel.key.urlsafe()}}"
+                                alt="PANEL CONTENT">
+                              {% else %}
+                                <img width="175px" src="../photos/upload.png">
+                              {% endif %}
+                            </div>
+                          </td>
+                          {% set count = count+1 %}
 
+                          {% else %}
+
+                            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+                            <div class="panel">
+                              {% if panel.filled %}
+                                <img width="175px" src="/photo?key={{panel.key.urlsafe()}}"
+                                alt="PANEL CONTENT">
+                              {% else %}
+                                <img width="175px" src="../photos/upload.png">
+                              {% endif %}
+                            </div>
+                          </td>
+                        </tr>
+                        {% set count = count+1 %}
+
+                        {% endif %}
   {% endfor %}
 </div>

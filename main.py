@@ -97,15 +97,14 @@ class viewProject(webapp2.RequestHandler):
 
         panel_rows = []
 
-        for i in range(rows):
+        for i in range(columns):
             row = []
-            for j in range(columns):
-                index_in_all_panels = columns * i + j
+            for j in range(rows):
+                index_in_all_panels = columns * j + i
                 print("index_in_all_panels", index_in_all_panels)
                 panel_to_append = all_panels[index_in_all_panels]
                 row.append(panel_to_append)
             panel_rows.append(row)
-
 
         # For however many rows,
         # Create a new row and add column however many panels
@@ -153,11 +152,11 @@ class viewProject(webapp2.RequestHandler):
             newProject_key = newProject.key
             newProject.put()
             newProject_key = newProject.key
-            for i in range(1, rows + 1):
+            for i in range(1, columns + 1):
 
-                for j in range(1, columns + 1):
+                for j in range(1, rows + 1):
                     newPanel = Panel(project_key=newProject_key, width=200, height=200,
-                    panel_id = i*columns+j, content="%d %d" %(i, j))
+                    panel_id = j*rows+i, content="%d %d" %(j, i))
                     newPanel.put()
         else:
             current_person = None
