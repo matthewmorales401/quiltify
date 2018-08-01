@@ -149,6 +149,7 @@ class viewProject(webapp2.RequestHandler):
             current_person = user_query.filter(User.email == current_email).get()
             newProject = Project(owner=current_person.key, rows=rows,
             columns=columns, title=title,)
+            newProject_key = newProject.key
             newProject.put()
             newProject_key = newProject.key
             for i in range(1, rows + 1):
