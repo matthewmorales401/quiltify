@@ -39,7 +39,7 @@ class User(ndb.Model):
 class MainPage(webapp2.RequestHandler):
     def get(self):
         project_query = Project.query()
-        project_query = project_query.order(-Project.created_time)
+        project_query = project_query.order(Project.created_time)
         projects = project_query.fetch()
 
         user_query = User.query()
@@ -152,7 +152,6 @@ class viewProject(webapp2.RequestHandler):
             newProject_key = newProject.key
             newProject.put()
             newProject_key = newProject.key
-
             for i in range(1, rows + 1):
 
                 for j in range(1, columns + 1):
@@ -253,15 +252,7 @@ class Profile(webapp2.RequestHandler):
             current_person = user_query.filter(User.email == current_email).get()
             if current_person:
                 projects = Project.query().filter(Project.owner == current_person.key)
-                projects = projects.order(-Project.created_time)
-                panels = Panel.query().filter(Panel.creator == current_person.key)
-                projectDict = {}
-                for project in projects:
-                    projectDict[project.key] = True
-                for panel in panels:
-                    if not panel.project_key in projectDict:
-                        projectDict[panel.project_key] = True
-
+                projects = projects.order(Project.created_time)
         else:
             current_person = None
 
@@ -271,7 +262,7 @@ class Profile(webapp2.RequestHandler):
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
-            "projects" : projectDict,
+            "projects" : projects,
         }
 
         template = env.get_template("templates/profile.html")
@@ -326,26 +317,7 @@ class Preview(webapp2.RequestHandler):
 
         project_key = ndb.Key(urlsafe = self.request.get('key'))
         panels_query = Panel.query().order(Panel.panel_id)
-        panels_query = Panel.query().order(Panel.panel_id)
-        all_panels = panels_query.filter(Panel.project_key == project_key).fetch()
-
-        print "all panels", all_panels
-        project = project_key.get()
-        rows = project.rows
-        columns = project.columns
-        print("rows", rows)
-        print("columns", columns)
-
-        panel_rows = []
-
-        for i in range(rows):
-            row = []
-            for j in range(columns):
-                index_in_all_panels = columns * i + j
-                print("index_in_all_panels", index_in_all_panels)
-                panel_to_append = all_panels[index_in_all_panels]
-                row.append(panel_to_append)
-            panel_rows.append(row)
+        panels = panels_query.filter(Panel.project_key == project_key).fetch()
 
         project = project_key.get()
 
@@ -367,7 +339,7 @@ class Preview(webapp2.RequestHandler):
             "login_url" : login_url,
             "logout_url" : logout_url,
             "current_person" : current_person,
-            "panel_rows" : panel_rows,
+            "panels" : panels,
             "project" : project,
         }
 
