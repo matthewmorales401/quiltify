@@ -32,21 +32,23 @@
     </div>
     <div class="divider"></div>
     <div class="panelBox redborder">
-      {% for panel in panels %}
+      {% for panel_row in panel_rows %}
+      <div class="row">
+        {% for panel in panel_row %}
         <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;"
         onclick="location.href='/updatepanel?key={{panel.key.urlsafe()}}'">
-          <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
-          alt="PANEL CONTENT">
-          <!-- <form method="get" action="updatepanel" style="position: absolute; bottom: 0;">
-            <div style="display: none;">
-              <input name="key" value="{{panel.key.urlsafe()}}">
-            </div>
-            <input class="smallbutton" type="submit" value="Edit">
-          </form> -->
+          {% if panel.filled %}
+            <img width="{{panel.width}}" height="{{panel.height}}" src="/photo?key={{panel.key.urlsafe()}}"
+            alt="PANEL CONTENT">
+          {% else %}
+            <img width="{{panel.width}}" src="../photos/upload.png">
+          {% endif %}
         </div>
-
+        {% endfor %}
+      </div>
       {% endfor %}
     </div>
+
   </div>
 
 </div>

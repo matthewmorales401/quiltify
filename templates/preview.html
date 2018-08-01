@@ -4,9 +4,13 @@
 <div class="panelBox redborder"  style="max-height: 100%;
     max-width: 100%; object-fit: scale-down;">
   {% for panel in panels %}
-    <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px;">
-      <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
-      alt="PANEL CONTENT">
+    <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;">
+      {% if panel.filled %}
+        <img width="{{panel.width}}" src="/photo?key={{panel.key.urlsafe()}}"
+        alt="PANEL CONTENT">
+      {% else %}
+        <img width="{{panel.width}}" src="../photos/upload.png">
+      {% endif %}
     </div>
 
   {% endfor %}
