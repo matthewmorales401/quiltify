@@ -35,6 +35,8 @@
           {% if panel.creator.get() %}
             <a href="profile?profile_key={{panel.creator.get().key.urlsafe()}}">
             {{panel.creator.get().firstname}} {{panel.creator.get().lastname}}</a>
+          {% else %}
+            -Deleted Account-
           {% endif %}
         {% else %}
           None
@@ -64,7 +66,8 @@
 
       </div>
       <div style="padding: 5px; margin: 10px;">
-        {% if not panel.creator or current_person.email == panel.creator.get().email %}
+        {% if not panel.creator or current_person.email == panel.creator.get().email or
+          current_person.email == project.owner.get().email%}
         <form action="uploadphoto" method="POST" enctype="multipart/form-data">
           <div style="display: none;">
             <input name="key" value="{{panel.key.urlsafe()}}">
