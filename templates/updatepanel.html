@@ -32,8 +32,10 @@
       <p style="font-style: italic; color: #696969; line-height: 15px; padding-left: 10px;">
         Creator:
         {% if panel.creator %}
-          <a href="profile?profile_key={{panel.creator.get().key.urlsafe()}}">
-          {{panel.creator.get().email}}</a>
+          {% if panel.creator.get() %}
+            <a href="profile?profile_key={{panel.creator.get().key.urlsafe()}}">
+            {{panel.creator.get().firstname}} {{panel.creator.get().lastname}}</a>
+          {% endif %}
         {% else %}
           None
         {% endif %}

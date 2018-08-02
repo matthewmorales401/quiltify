@@ -2,6 +2,28 @@
 <title>Quiltify Home</title>
 <link rel="stylesheet" href="../stylesheets/stylesheet.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
+<style>
+object {
+  opacity: 1;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.hoverText {
+  transition: .5s ease;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.artworks.redborder:hover object {
+  opacity: 0.3;
+}
+
+.artworks.redborder:hover .hoverText {
+  opacity: 1;
+}
+</style>
 
 <div class="heading">
   <div class="webtitle" onclick="location.href='/'">
@@ -56,9 +78,17 @@
         {% if count%2==1 %}
         <tr>
             <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
-              <a href="/viewproject?key={{project.key.urlsafe()}}">
-                {{project.title}}
-              </a>
+              <div class="hoverText">
+                Project title: {{project.title}}
+                <br></br>
+                Owner: {{project.Owner}}
+                <br></br>
+                Date created: {{project.created_time}}
+                <a href="/viewproject?key={{project.key.urlsafe()}}">edit</a>
+
+              </div>
+
+
               <object type="text/html" data="/preview?key={{project.key.urlsafe()}}" width="100%" height="100%" background-size="contain">
               </object>
 

@@ -53,6 +53,12 @@
       {% if current_person.email == profile.email %}
         <a href="editprofile" class="submitbutton" style="margin: 10px; line-height: 45px;">
         Edit Profile</a>
+        <form action="/" method="post">
+          <div style="display: none">
+            <input name="profile_key" value="{{profile.key.urlsafe()}}">
+          </div>
+          <button class="deletebutton">Delete</button>
+        </form>
       {% endif %}
     </div>
   </div>
