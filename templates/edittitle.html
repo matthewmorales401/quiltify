@@ -28,19 +28,18 @@
   <div class="content">
 
     <div class="pageheader">
-      <h2 style="">Editing Project Title</h2>
+      <h2 style="">Editing {{project.title}}</h2>
     </div>
     <div class="divider"></div>
     <div class="panelBox redborder">
 
       <div style="margin: 20px;">
 
-
         <form method="post" action="viewproject">
-          Title: <input name="title" value="{{profile.title}}">
+          Title: <input name="title" value="{{project.title}}">
 
           <div style="display: none;">
-            <input name="project_key" value="{{profile.key.urlsafe()}}">
+            <input name="project_key" value="{{project.key.urlsafe()}}">
           </div>
           <br><br>
           <input class="submitbutton" type="submit" value="Save">
