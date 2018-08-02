@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <title>preview</title>
 <style>
-table {
+body {
+  overflow-y: hidden;
 
-}
-.panel{
 }
 </style>
 <div class="panelBox redborder"  style="max-height: 100%; max-width: 100%;">
@@ -14,7 +13,7 @@ table {
     {% set columns = project.columns %}
       {% if count%(columns)==1 %}
         <tr>
-          <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+          <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;" scroll="no">
             <div class="panel">
               {% if panel.filled %}
                 <img width="100%" src="/photo?key={{panel.key.urlsafe()}}"
@@ -27,7 +26,7 @@ table {
           {% set count = count+1 %}
 
       {% elif count%(columns)==columns %}
-        <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+        <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;" scroll="no">
           <div class="panel">
             {% if panel.filled %}
               <img width="100%" src="/photo?key={{panel.key.urlsafe()}}"
@@ -41,7 +40,7 @@ table {
         {% set count = count+1 %}
 
       {% else %}
-        <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+        <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;" scroll="no">
           <div class="panel">
             {% if panel.filled %}
               <img width="100%" src="/photo?key={{panel.key.urlsafe()}}"
@@ -53,7 +52,7 @@ table {
         </td>
         {% set count = count+1 %}
       {% endif %}
-      
+
     {% endfor %}
   </table>
 </div>

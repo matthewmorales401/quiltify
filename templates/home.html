@@ -10,10 +10,17 @@ object {
 }
 
 .hoverText {
+  height: 400px;
+  width: 400px;
   transition: .5s ease;
   opacity: 0;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+  position: absolute;
+  margin-left: 200px;
+  margin-top: 200px;
+  color: black;
+
 }
 
 .artworks.redborder:hover object {
@@ -22,6 +29,7 @@ object {
 
 .artworks.redborder:hover .hoverText {
   opacity: 1;
+
 }
 </style>
 
@@ -78,30 +86,37 @@ object {
         {% if count%2==1 %}
         <tr>
             <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+
               <div class="hoverText">
-                Project title: {{project.title}}
+                <br></br><br></br>
+                <h2>Project title: {{project.title}}</h2>
                 <br></br>
-                Owner: {{project.Owner}}
-                <br></br>
-                Date created: {{project.created_time}}
-                <a href="/viewproject?key={{project.key.urlsafe()}}">edit</a>
+                <h3>Owner: {{project.owner.get().firstname}} {{project.owner.get().lastname}}</h3>
+                <h6><i>Date created: {{project.created_time}}</i></h6>
 
               </div>
 
-
               <object type="text/html" data="/preview?key={{project.key.urlsafe()}}" width="100%" height="100%" background-size="contain">
               </object>
-
+              <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
             </td>
             {% set count = count+1 %}
 
         {% else %}
             <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
-              <a href="/viewproject?key={{project.key.urlsafe()}}">
-                  {{project.title}}
-              </a>
+
+              <div class="hoverText">
+                <br></br><br></br>
+                <h2>Project title: {{project.title}}</h2>
+                <br></br>
+                <h3>Owner: {{project.owner.get().firstname}} {{project.owner.get().lastname}}</h3>
+                <h6><i>Date created: {{project.created_time}}</i></h6>
+
+              </div>
+
               <object type="text/html" data="/preview?key={{project.key.urlsafe()}}" style="width: 100%; height: 100%; display: table-cell;">
               </object>
+              <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
             </td>
         </tr>
         {% set count = count+1 %}
