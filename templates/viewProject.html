@@ -47,8 +47,12 @@
         {% if project.owner.get().email == current_person.email %}
           <a href="/edittitle" class="pageheaderbutton">
           Edit</a><br>
-          <a href="" class="pageheaderbutton">
-          Delete</a>
+          <form action="/" method="post">
+            <div style="display: none">
+              <input name="project_key" value="{{project.key.urlsafe()}}">
+            </div>
+            <button class="pageheaderbutton">Delete</button>
+          </form>
         {% endif %}
       </div>
     </div>
