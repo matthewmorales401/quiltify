@@ -76,6 +76,7 @@ class MainPage(webapp2.RequestHandler):
         lastname = self.request.get('lastname')
         biography = self.request.get('biography')
         current_person = None
+        logout_url = users.create_logout_url("/")
 
         if current_user:
             current_email = current_user.email()
@@ -89,6 +90,21 @@ class MainPage(webapp2.RequestHandler):
                 for panel in panels:
                     panel.key.delete()
                 project_key.delete()
+
+            urlsafe_profile_key = self.request.get("profile_key")
+            if urlsafe_profile_key:
+                profile_key = ndb.Key(urlsafe=urlsafe_profile_key)
+
+                projects = Project.query().filter(Project.owner == profile_key)
+                for project in projects:
+                    panels = Panel.query().filter(Panel.project_key == project.key)
+                    for panel in panels:
+                        panel.key.delete()
+                    project.key.delete()
+
+                profile_key.delete()
+                time.sleep(2)
+                self.redirect(logout_url)
 
         else:
             email=users.get_current_user().email()
