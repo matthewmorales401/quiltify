@@ -137,7 +137,7 @@ a.logo {
   min-width: 400px;
   min-height: 400px;
 
-  }
+}
 
 .create {
   background-color: #e7e7e7;
@@ -237,7 +237,7 @@ a.logo {
   margin-top: 100px;
   color: black;
   text-align: center;
-
+  cursor: pointer;
 }
 
 img.panelimg {
@@ -277,10 +277,12 @@ object.previewobject {
 
 .artworks.redborder:hover object.previewobject {
   opacity: 0.15;
+  cursor: pointer;
 }
 
 .artworks.redborder:hover .hoverText {
   opacity: 1;
+  cursor: pointer;
 }
 
 .panel {

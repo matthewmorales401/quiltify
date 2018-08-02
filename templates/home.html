@@ -56,41 +56,51 @@
       {% for project in projects %}
         {% if count%2==1 %}
         <tr>
-            <td class="artworks redborder" style="font-size: 20px; vertical-align: middle; text-align: center;">
-
+          <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+            <div onclick="location.href='/viewproject?key={{project.key.urlsafe()}}'">
               <div class="hoverText">
-                <br></br><br></br>
-                <p>Project title: {{project.title}}</p>
-                <br></br>
+                <br></br><br>
+                <h2>Project title: {{project.title}}</h2>
+                <br>
                 <h3>Owner: {{project.owner.get().firstname}} {{project.owner.get().lastname}}</h3>
                 <h6><i>Date created: {{project.created_time}}</i></h6>
 
               </div>
 
-              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}"
-              width="100%" height="100%" background-size="contain">
+              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}" width="100%" height="400px" background-size="contain">
               </object>
-              <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
-            </td>
-            {% set count = count+1 %}
+              <form method="get" action="viewproject">
+                <div style="display: none;">
+                  <input name="key" value="{{project.key.urlsafe()}}">
+                </div>
+                <input class="submitbutton" type="submit" value="View Project">
+              </form>
+            </div>
+          </td>
+          {% set count = count+1 %}
 
         {% else %}
-            <td class="artworks redborder" style="font-size: 20px; text-align: center; vertical-align: middle;">
-
+          <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+            <div onclick="location.href='/viewproject?key={{project.key.urlsafe()}}'">
               <div class="hoverText">
-                <br></br><br></br>
+                <br></br><br>
                 <h2>Project title: {{project.title}}</h2>
-                <br></br>
+                <br>
                 <h3>Owner: {{project.owner.get().firstname}} {{project.owner.get().lastname}}</h3>
                 <h6><i>Date created: {{project.created_time}}</i></h6>
 
               </div>
-
               <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}"
-              style="width: 100%; height: 100%; display: table-cell;">
+              style="width: 100%; height: 400px; display: table-cell;">
               </object>
-              <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
-            </td>
+              <form method="get" action="viewproject">
+                <div style="display: none;">
+                  <input name="key" value="{{project.key.urlsafe()}}">
+                </div>
+                <input class="submitbutton" type="submit" value="View Project">
+              </form>
+            </div>
+          </td>
         </tr>
         {% set count = count+1 %}
         {% endif %}
