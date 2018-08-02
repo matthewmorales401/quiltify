@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<title>Quiltify Project</title>
+<link rel="stylesheet" href="../stylesheets/stylesheet.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
+
+
+<div class="heading">
+  <div class="webtitle" onclick="location.href='/'">
+    <img class="logo" src="../photos/logo.png">
+    <p>QUILTIFY</p>
+  </div>
+  <div class="userbox">
+    {% if current_user %}
+      {% if current_person %}
+        <p style="font-family: 'Quicksand', sans-serif; font-size: 18px;">
+          {{current_person.firstname}} {{current_person.lastname}}</p>
+        <p>{{current_user.email()}}</p>
+      {% endif %}
+      <p><a href="/profile">View Profile</a> | <a href="{{logout_url}}">Log Out</a></p>
+    {% else %}
+      <br><br>
+      <a href="{{login_url}}">Log In</a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="pagebody">
+  <div class="content">
+
+    <div class="pageheader">
+      <h2 style="">Editing Project Title</h2>
+    </div>
+    <div class="divider"></div>
+    <div class="panelBox redborder">
+
+      <div style="margin: 20px;">
+
+
+        <form method="post" action="viewproject">
+          Title: <input name="title" value="{{profile.title}}">
+
+          <div style="display: none;">
+            <input name="project_key" value="{{profile.key.urlsafe()}}">
+          </div>
+          <br><br>
+          <input class="submitbutton" type="submit" value="Save">
+          <a href="profile" class="submitbutton">Cancel</a>
+        </form>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
