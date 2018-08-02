@@ -2,36 +2,7 @@
 <title>Quiltify Home</title>
 <link rel="stylesheet" href="../stylesheets/stylesheet.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
-<style>
-object {
-  opacity: 1;
-  transition: .5s ease;
-  backface-visibility: hidden;
-}
 
-.hoverText {
-  height: 400px;
-  width: 400px;
-  transition: .5s ease;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  position: absolute;
-  margin-left: 200px;
-  margin-top: 200px;
-  color: black;
-
-}
-
-.artworks.redborder:hover object {
-  opacity: 0.3;
-}
-
-.artworks.redborder:hover .hoverText {
-  opacity: 1;
-
-}
-</style>
 
 <div class="heading">
   <div class="webtitle" onclick="location.href='/'">
@@ -96,7 +67,7 @@ object {
 
               </div>
 
-              <object type="text/html" data="/preview?key={{project.key.urlsafe()}}" width="100%" height="100%" background-size="contain">
+              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}" width="100%" height="100%" background-size="contain">
               </object>
               <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
             </td>
@@ -114,7 +85,7 @@ object {
 
               </div>
 
-              <object type="text/html" data="/preview?key={{project.key.urlsafe()}}" style="width: 100%; height: 100%; display: table-cell;">
+              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}" style="width: 100%; height: 100%; display: table-cell;">
               </object>
               <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
             </td>

@@ -63,17 +63,34 @@
 
     <div class="panelBox redborder">
       {% for panel_row in panel_rows %}
+
       <div class="row">
         {% for panel in panel_row %}
-        <div class="panel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;"
+
+        <div class="projectpanel" style="width: {{panel.width}}px; height: {{panel.height}}px; position: relative;"
         onclick="location.href='/updatepanel?key={{panel.key.urlsafe()}}'">
+          <div class="hoverTextPanel">
+            <br><br><br>
+            Panel {{panel.panel_id}}<br><br>
+            Creator:
+            {% if panel.creator %}
+              {% if panel.creator.get() %}
+                {{panel.creator.get().firstname}} {{panel.creator.get().lastname}}
+              {% else %}
+                -Deleted Account-
+              {% endif %}
+            {% else %}
+              None
+            {% endif %}
+          </div>
           {% if panel.filled %}
-            <img width="{{panel.width}}" height="{{panel.height}}" src="/photo?key={{panel.key.urlsafe()}}"
+            <img class="panelimg" width="{{panel.width}}" height="{{panel.height}}" src="/photo?key={{panel.key.urlsafe()}}"
             alt="PANEL CONTENT">
           {% else %}
-            <img width="{{panel.width}}" src="../photos/upload.png">
+            <img class="panelimg" width="{{panel.width}}" src="../photos/upload.png">
           {% endif %}
         </div>
+
         {% endfor %}
       </div>
       {% endfor %}
