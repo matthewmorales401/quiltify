@@ -3,6 +3,11 @@
 <link rel="stylesheet" href="../stylesheets/stylesheet.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
 
+<style>
+h2 {
+
+}
+</style>
 
 <div class="heading">
   <div class="webtitle" onclick="location.href='/'">
@@ -56,7 +61,7 @@
       {% for project in projects %}
         {% if count%2==1 %}
         <tr>
-            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+            <td class="artworks redborder" style="font-size: 20px; vertical-align: middle; text-align: center;">
 
               <div class="hoverText">
                 <br></br><br></br>
@@ -67,14 +72,14 @@
 
               </div>
 
-              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}" width="100%" height="100%" background-size="contain">
+              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}" width="100%" height="100%">
               </object>
               <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
             </td>
             {% set count = count+1 %}
 
         {% else %}
-            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+            <td class="artworks redborder" style="font-size: 20px; text-align: center; vertical-align: middle;">
 
               <div class="hoverText">
                 <br></br><br></br>
@@ -85,7 +90,7 @@
 
               </div>
 
-              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}" style="width: 100%; height: 100%; display: table-cell;">
+              <object class="previewobject" type="text/html" data="/preview?key={{project.key.urlsafe()}}" style="width: 100%; height: 100%;">
               </object>
               <h2><a href="/viewproject?key={{project.key.urlsafe()}}">EDIT</a></h2>
             </td>
