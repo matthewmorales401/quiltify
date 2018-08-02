@@ -56,11 +56,11 @@
       {% for project in projects %}
         {% if count%2==1 %}
         <tr>
-            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+            <td class="artworks redborder" style="font-size: 20px; vertical-align: middle; text-align: center;">
 
               <div class="hoverText">
                 <br></br><br></br>
-                <h2>Project title: {{project.title}}</h2>
+                <p>Project title: {{project.title}}</p>
                 <br></br>
                 <h3>Owner: {{project.owner.get().firstname}} {{project.owner.get().lastname}}</h3>
                 <h6><i>Date created: {{project.created_time}}</i></h6>
@@ -75,7 +75,7 @@
             {% set count = count+1 %}
 
         {% else %}
-            <td class="artworks redborder" style="font-size: 20px; vertical-align: top; text-align: center;">
+            <td class="artworks redborder" style="font-size: 20px; text-align: center; vertical-align: middle;">
 
               <div class="hoverText">
                 <br></br><br></br>
