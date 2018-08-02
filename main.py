@@ -438,7 +438,6 @@ class EditTitle(webapp2.RequestHandler):
 
         self.response.write(template.render(templateVars))
 
-
 app = webapp2.WSGIApplication([
     ("/", MainPage),
     ("/viewproject", viewProject),
