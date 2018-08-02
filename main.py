@@ -258,18 +258,20 @@ class PhotoUploadHandler(webapp2.RequestHandler):
         panel_key = ndb.Key(urlsafe=urlsafe_key)
 
         panel = panel_key.get()
-        panel.content = upload
-        panel.filled = True
 
-        if current_user:
-            current_email = current_user.email()
-            current_person = user_query.filter(User.email == current_email).get()
-            panel.creator = current_person.key
+        if upload:
+            panel.content = upload
+            panel.filled = True
 
-        else:
-            current_person = None
+            if current_user:
+                current_email = current_user.email()
+                current_person = user_query.filter(User.email == current_email).get()
+                panel.creator = current_person.key
 
-        panel.put()
+            else:
+                current_person = None
+
+            panel.put()
 
         self.redirect('/updatepanel?key=' + panel.key.urlsafe())
 
@@ -280,13 +282,15 @@ class ProfilePictureUploadHandler(webapp2.RequestHandler):
         upload = self.request.get("file")
         current_user = users.get_current_user()
 
-        urlsafe_key = self.request.get('profile_key')
-        profile_key = ndb.Key(urlsafe=urlsafe_key)
+        if upload:
 
-        profile = profile_key.get()
-        profile.profilepic = upload
+            urlsafe_key = self.request.get('profile_key')
+            profile_key = ndb.Key(urlsafe=urlsafe_key)
 
-        profile.put()
+            profile = profile_key.get()
+            profile.profilepic = upload
+
+            profile.put()
 
         self.redirect('/editprofile')
 
