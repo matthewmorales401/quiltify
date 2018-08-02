@@ -175,30 +175,39 @@ class viewProject(webapp2.RequestHandler):
         user_query = User.query()
         user_list = user_query.fetch()
 
-        rows = int(self.request.get('rows'))
-        columns = int(self.request.get('columns'))
-        current_user = users.get_current_user()
         title = self.request.get('title')
+        if self.request.get('rows'):
+            rows = int(self.request.get('rows'))
+            columns = int(self.request.get('columns'))
+            current_user = users.get_current_user()
 
-        if current_user:
-            current_email = current_user.email()
-            current_person = user_query.filter(User.email == current_email).get()
-            newProject = Project(owner=current_person.key, rows=rows,
-            columns=columns, title=title,)
-            newProject_key = newProject.key
-            newProject.put()
-            newProject_key = newProject.key
-            for i in range(1, columns + 1):
 
-                for j in range(1, rows + 1):
-                    newPanel = Panel(project_key=newProject_key, width=200, height=200,
-                                     panel_id=((i)+columns*(j-1)), content="%d %d" %(j, i))
-                    newPanel.put()
+            if current_user:
+                current_email = current_user.email()
+                current_person = user_query.filter(User.email == current_email).get()
+                newProject = Project(owner=current_person.key, rows=rows,
+                columns=columns, title=title,)
+                newProject_key = newProject.key
+                newProject.put()
+                newProject_key = newProject.key
+                for i in range(1, columns + 1):
+
+                    for j in range(1, rows + 1):
+                        newPanel = Panel(project_key=newProject_key, width=200, height=200,
+                                         panel_id=((i)+columns*(j-1)), content="%d %d" %(j, i))
+                        newPanel.put()
+            else:
+                current_person = None
+            time.sleep(2)
+            self.redirect("/viewproject?key=" + newProject_key.urlsafe())
         else:
-            current_person = None
+            project = ndb.Key(urlsafe=self.request.get('project_key')).get()
+            project.title = title
+            project.put()
+            time.sleep(2)
+            self.redirect("/viewproject?key=" + project.key.urlsafe())
 
-        time.sleep(2)
-        self.redirect("/viewproject?key=" + newProject_key.urlsafe())
+
 
 class UpdatePanel(webapp2.RequestHandler):
     def get(self):
@@ -466,10 +475,14 @@ class Preview(webapp2.RequestHandler):
         self.response.write(template.render(templateVars))
 
 class EditTitle(webapp2.RequestHandler):
-    def get(self):
+
+    def post(self):
 
         user_query = User.query()
         user_list = user_query.fetch()
+
+        project_urlsafe = self.request.get('project_key')
+        project = ndb.Key(urlsafe=project_urlsafe).get()
 
         current_user = users.get_current_user()
         current_email = current_user.email()
@@ -481,7 +494,8 @@ class EditTitle(webapp2.RequestHandler):
             "profile" : profile,
             "current_person" : current_person,
             "current_user" : current_user,
-            }
+            "project" : project,
+        }
 
         template = env.get_template("templates/edittitle.html")
 
