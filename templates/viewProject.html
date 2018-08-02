@@ -45,10 +45,13 @@
       </div>
       <div style="float: right">
         {% if project.owner.get().email == current_person.email %}
-          <a href="" class="pageheaderbutton">
-          Edit</a><br>
-          <a href="" class="pageheaderbutton">
-          Delete</a>
+          <a href="" class="pageheaderbutton">Edit</a><br>
+          <form action="/" method="post">
+            <div style="display: none">
+              <input name="project_key" value="{{project.key.urlsafe()}}">
+            </div>
+            <button class="pageheaderbutton">Delete</button>
+          </form>
         {% endif %}
       </div>
     </div>

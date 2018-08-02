@@ -69,12 +69,32 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(template.render(templateVars))
 
     def post(self):
+        current_user = users.get_current_user()
+        user_query = User.query()
+
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         biography = self.request.get('biography')
-        email=users.get_current_user().email()
-        newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
-        newUser.put()
+        current_person = None
+
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
+
+        if current_person:
+            urlsafe_project_key = self.request.get("project_key")
+            if urlsafe_project_key:
+                project_key = ndb.Key(urlsafe=urlsafe_project_key)
+                panels = Panel.query().filter(Panel.project_key == project_key)
+                for panel in panels:
+                    panel.key.delete()
+                project_key.delete()
+
+        else:
+            email=users.get_current_user().email()
+            newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
+            newUser.put()
+
         time.sleep(2)
         self.redirect("/")
 
@@ -316,16 +336,29 @@ class Profile(webapp2.RequestHandler):
 
     def post(self):
 
-        profile = ndb.Key(urlsafe=self.request.get('profile_key')).get()
+        current_user = users.get_current_user()
+        user_query = User.query()
+
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         biography = self.request.get('biography')
+        current_person = None
 
-        profile.firstname = firstname
-        profile.lastname = lastname
-        profile.biography = biography
+        if current_user:
+            current_email = current_user.email()
+            current_person = user_query.filter(User.email == current_email).get()
 
-        profile.put()
+        if current_person:
+            profile = ndb.Key(urlsafe=self.request.get('profile_key')).get()
+            profile.firstname = firstname
+            profile.lastname = lastname
+            profile.biography = biography
+            profile.put()
+        else:
+            email=users.get_current_user().email()
+            newUser = User(firstname=firstname, lastname=lastname, biography=biography, email=email)
+            newUser.put()
+
         time.sleep(2)
 
         self.redirect("/profile")

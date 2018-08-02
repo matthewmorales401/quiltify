@@ -86,6 +86,7 @@ a.logo {
 }
 
 .pageheaderbutton {
+  color: black;
   background-color: #d5efef;
   float: right;
   margin: 3px;
@@ -94,9 +95,11 @@ a.logo {
   padding-left: 10px;
   padding-right: 10px;
   font-size: 12px;
+  border: none;
 }
 
 .pageheaderbutton:hover {
+  color: black;
   background-color: #BEE7E8;
   cursor: pointer;
 }
@@ -108,6 +111,7 @@ a.logo {
   padding: 1px;
   padding-left: 5px;
   padding-right: 5px;
+  border: none;
 }
 
 .smallbutton:hover {
